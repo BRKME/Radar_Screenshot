@@ -1,6 +1,6 @@
 """
 Конфигурация источников для скриншотов
-Version: 1.0
+Version: 1.1 - Fixed token_unlocks selector
 """
 
 # Конфигурация источников для скриншотов
@@ -19,8 +19,8 @@ SCREENSHOT_SOURCES = {
     "altcoin_season": {
         "name": "Top 100 Coins Performance (90 Days)",
         "url": "https://coinmarketcap.com/charts/altcoin-season-index/",
-        "selector": None,  # Скриншот всей страницы с последующей обрезкой
-        "wait_for": "canvas",  # Ждем загрузки графика
+        "selector": None,
+        "wait_for": "canvas",
         "telegram_title": "🌈 Altcoin Season Index",
         "telegram_hashtags": "#AltcoinSeason #Altcoins #CryptoMarket",
         "enabled": True,
@@ -29,7 +29,7 @@ SCREENSHOT_SOURCES = {
     
     "btc_dominance": {
         "name": "Bitcoin Dominance",
-        "url": "https://coinmarketcap.com/charts/bitcoin-dominance/",  # FIX BUG #5: Правильный URL
+        "url": "https://coinmarketcap.com/charts/bitcoin-dominance/",
         "selector": "#__next > div.sc-97df1870-1.laPgsv.global-layout-v2 > div.main-content > div.cmc-body-wrapper > div > div > div.sc-65e7f566-0.jpCqhh > div > div > div.sc-65e7f566-0.izPDqH > div.sc-65e7f566-0.gWkXfC > div.sc-65e7f566-0.cOcRup > div > div.sc-65e7f566-0.lhhnRU",
         "wait_for": "div.sc-65e7f566-0.lhhnRU",
         "telegram_title": "₿ Bitcoin Dominance",
@@ -61,12 +61,12 @@ SCREENSHOT_SOURCES = {
     },
     
     "derivatives": {
-        "name": "Derivatives Market",
-        "url": "https://coinmarketcap.com/charts/derivatives-market/",
-        "selector": "#__next > div.sc-97df1870-1.laPgsv.global-layout-v2 > div.main-content > div.cmc-body-wrapper > div > div > div.sc-65e7f566-0.jpCqhh > div > div > div.sc-65e7f566-0.izPDqH > div.sc-65e7f566-0.hAaYGH > div.sc-65e7f566-0.fBknJk > div",
-        "wait_for": "div.sc-65e7f566-0.fBknJk",
-        "telegram_title": "📈 Derivatives Market",
-        "telegram_hashtags": "#Derivatives #Futures #CryptoTrading",
+        "name": "Crypto Derivatives",
+        "url": "https://coinmarketcap.com/charts/perpetual-markets/",
+        "selector": None,
+        "wait_for": "table",
+        "telegram_title": "📈 Crypto Derivatives Market",
+        "telegram_hashtags": "#Derivatives #Futures #Trading",
         "enabled": True,
         "priority": 6
     },
@@ -85,7 +85,7 @@ SCREENSHOT_SOURCES = {
     "token_unlocks": {
         "name": "Token Unlocks",
         "url": "https://dropstab.com/vesting",
-        "selector": None,  # Скриншот всей страницы с последующей обрезкой
+        "selector": "main",  # ✅ ИСПРАВЛЕНО: захватываем только основной контент без сайдбара
         "wait_for": "table",
         "telegram_title": "🔓 Token Unlocks Calendar",
         "telegram_hashtags": "#TokenUnlocks #Vesting #Crypto",
@@ -95,10 +95,9 @@ SCREENSHOT_SOURCES = {
 }
 
 # Расписание публикаций (час UTC : source_key)
-# FIX BUG #8: Заполняем все 24 часа с fallback
 SCHEDULE = {
     0: "fear_greed",
-    1: "fear_greed",        # Fallback
+    1: "fear_greed",
     2: "btc_dominance",
     3: "btc_dominance",
     4: "btc_etf",
@@ -119,8 +118,8 @@ SCHEDULE = {
     19: "token_unlocks",
     20: "token_unlocks",
     21: "token_unlocks",
-    22: "fear_greed",        # Fallback
-    23: "btc_dominance"      # Fallback
+    22: "fear_greed",
+    23: "btc_dominance"
 }
 
 # Настройки для обработки изображений
@@ -129,14 +128,14 @@ IMAGE_SETTINGS = {
     "telegram_max_height": 1280,
     "quality": 85,
     "format": "JPEG",
-    "crop_padding": 20  # Дополнительный отступ при обрезке
+    "crop_padding": 20
 }
 
 # Настройки скриншотов
 SCREENSHOT_SETTINGS = {
     "viewport_width": 1920,
     "viewport_height": 1080,
-    "full_page": False,  # По умолчанию - только видимая область
-    "wait_timeout": 30000,  # 30 секунд
-    "wait_after_load": 5  # Секунды ожидания после загрузки страницы
+    "full_page": False,
+    "wait_timeout": 30000,
+    "wait_after_load": 5
 }
