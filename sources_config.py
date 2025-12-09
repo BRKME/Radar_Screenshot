@@ -85,7 +85,7 @@ SCREENSHOT_SOURCES = {
     "token_unlocks": {
         "name": "Token Unlocks",
         "url": "https://dropstab.com/vesting",
-        "selector": "main > div:first-child",  # ✅ FIXED: Только верхняя часть (первые ~10 токенов)
+        "selector": "main",  # ✅ Захватываем весь main, JS скроет лишние строки
         "wait_for": "table",
         "telegram_title": "🔓 Token Unlocks Calendar",
         "telegram_hashtags": "#TokenUnlocks #Vesting #Crypto",
