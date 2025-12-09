@@ -602,39 +602,37 @@ async def take_screenshot(page, source_config, source_key):
         # Дополнительное ожидание
         await asyncio.sleep(SCREENSHOT_SETTINGS['wait_after_load'])
         
-        # ✅ FIX: Для token_unlocks оставляем только первые 10 токенов
+        # ✅ FIX: Для token_unlocks прокручиваем вверх и удаляем баннеры
         if source_key == "token_unlocks":
             try:
                 await page.evaluate("""
                     () => {
-                        // Удаляем cookie баннеры
-                        document.querySelectorAll('[class*="cookie"], [class*="consent"], [role="dialog"]').forEach(el => {
-                            if (el.textContent.toLowerCase().includes('cookie') || 
-                                el.textContent.includes('By using')) {
+                        // Прокручиваем страницу наверх
+                        window.scrollTo(0, 0);
+                        
+                        // Удаляем все cookie баннеры
+                        const removeElements = [
+                            ...document.querySelectorAll('[class*="cookie"]'),
+                            ...document.querySelectorAll('[class*="consent"]'),
+                            ...document.querySelectorAll('[role="dialog"]'),
+                            ...document.querySelectorAll('[class*="modal"]'),
+                            ...document.querySelectorAll('div[style*="position: fixed"]'),
+                        ];
+                        
+                        removeElements.forEach(el => {
+                            const text = el.textContent.toLowerCase();
+                            if (text.includes('cookie') || 
+                                text.includes('by using') ||
+                                text.includes('consent') ||
+                                text.includes('agree')) {
                                 el.remove();
+                                console.log('Removed banner:', el.className);
                             }
                         });
-                        
-                        // Ограничиваем высоту main контейнера
-                        const main = document.querySelector('main');
-                        if (main) {
-                            main.style.maxHeight = '900px';
-                            main.style.overflow = 'hidden';
-                        }
-                        
-                        // Скрываем лишние строки в таблице
-                        const table = document.querySelector('table tbody');
-                        if (table) {
-                            const rows = table.querySelectorAll('tr');
-                            for (let i = 12; i < rows.length; i++) {
-                                rows[i].style.display = 'none';
-                            }
-                            console.log('✓ Скрыто строк:', rows.length - 12);
-                        }
                     }
                 """)
-                logger.info("✓ Token unlocks: применены ограничения и удалены баннеры")
-                await asyncio.sleep(2)
+                logger.info("✓ Token unlocks: прокручено вверх, баннеры удалены")
+                await asyncio.sleep(1)
             except Exception as e:
                 logger.warning(f"⚠️ Не удалось обработать token_unlocks: {e}")
         
