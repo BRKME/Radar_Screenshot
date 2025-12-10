@@ -579,6 +579,7 @@ async def take_screenshot(page, source_config, source_key):
     """Делает скриншот согласно конфигурации источника"""
     screenshot_path = None  # CRITICAL: Initialize before try
     optimized_path = None   # CRITICAL: Initialize before try
+    success = False         # Track if operation succeeded
     
     try:
         url = source_config['url']
@@ -681,6 +682,7 @@ async def take_screenshot(page, source_config, source_key):
             except Exception as e:
                 logger.warning(f"  ⚠️ Не удалось удалить оригинал: {e}")
         
+        success = True  # Mark as successful before return
         return {
             'source_key': source_key,
             'screenshot_path': optimized_path,
@@ -694,20 +696,21 @@ async def take_screenshot(page, source_config, source_key):
         return None
     
     finally:
-        # CRITICAL: Safe cleanup - variables are guaranteed to exist
-        if screenshot_path and os.path.exists(screenshot_path):
-            try:
-                os.remove(screenshot_path)
-                logger.info(f"🗑️  Cleanup: удален временный файл")
-            except Exception as cleanup_error:
-                logger.warning(f"⚠️ Cleanup warning: {cleanup_error}")
-        
-        if optimized_path and optimized_path != screenshot_path and os.path.exists(optimized_path):
-            try:
-                os.remove(optimized_path)
-                logger.info(f"🗑️  Cleanup: удален optimized файл")
-            except Exception as cleanup_error:
-                logger.warning(f"⚠️ Cleanup warning: {cleanup_error}")
+        # CRITICAL: Cleanup ONLY on failure (when success=False)
+        if not success:
+            if screenshot_path and os.path.exists(screenshot_path):
+                try:
+                    os.remove(screenshot_path)
+                    logger.info(f"🗑️  Cleanup при ошибке: удален screenshot")
+                except Exception as cleanup_error:
+                    logger.warning(f"⚠️ Cleanup warning: {cleanup_error}")
+            
+            if optimized_path and os.path.exists(optimized_path):
+                try:
+                    os.remove(optimized_path)
+                    logger.info(f"🗑️  Cleanup при ошибке: удален optimized")
+                except Exception as cleanup_error:
+                    logger.warning(f"⚠️ Cleanup warning: {cleanup_error}")
 
 
 async def main_parser():
