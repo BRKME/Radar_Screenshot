@@ -19,8 +19,8 @@ SCREENSHOT_SOURCES = {
     "altcoin_season": {
         "name": "Altcoin Season Index",
         "url": "https://coinmarketcap.com/charts/altcoin-season-index/",
-        "selector": "div.sc-65e7f566-0.kijrGb",  # ✅ Только верхний блок с индексом
-        "wait_for": "div.sc-65e7f566-0.kijrGb",
+        "selector": "div.kunWxz",  # ✅ Контейнер с 3 блоками
+        "wait_for": "div.kunWxz",
         "telegram_title": "🌈 Altcoin Season Index",
         "telegram_hashtags": "#AltcoinSeason #Altcoins #CryptoMarket",
         "enabled": True,
