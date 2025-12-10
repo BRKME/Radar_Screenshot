@@ -32,7 +32,6 @@ import html  # FIX ISSUE #26: Для HTML escaping
 # Импорты конфигурации
 from sources_config import (
     SCREENSHOT_SOURCES, 
-    SCHEDULE, 
     IMAGE_SETTINGS, 
     SCREENSHOT_SETTINGS
 )
