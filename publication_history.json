@@ -3,13 +3,13 @@
     "token_unlocks": "2025-12-09T22:12:39.207001+00:00",
     "altcoin_season": "2025-12-10T09:32:21.708035+00:00",
     "derivatives": "2025-12-10T12:58:24.353929+00:00",
-    "eth_etf": "2025-12-10T13:56:28.321350+00:00"
+    "eth_etf": "2025-12-10T14:31:22.018284+00:00"
   },
   "last_publication": {
     "source": "eth_etf",
     "name": "Ethereum ETF Tracker",
-    "published_at": "2025-12-10T13:56:28.321367+00:00",
-    "hour_utc": 13,
+    "published_at": "2025-12-10T14:31:22.018308+00:00",
+    "hour_utc": 14,
     "telegram": true,
     "twitter": false
   }
