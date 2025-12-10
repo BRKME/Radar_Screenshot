@@ -41,8 +41,8 @@ SCREENSHOT_SOURCES = {
     "eth_etf": {
         "name": "Ethereum ETF Tracker",
         "url": "https://coinmarketcap.com/etf/ethereum/",
-        "selector": "#__next > div.sc-97df1870-1.laPgsv.global-layout-v2 > div.main-content > div.cmc-body-wrapper > div > div > div.sc-65e7f566-0.jpCqhh > div > div.sc-65e7f566-0.dyAjoq > div.sc-65e7f566-0.cXxTPe > div > div > div.sc-65e7f566-0.dUpMa-D > div > div:nth-child(1) > div > div.sc-65e7f566-0.kRIzHD > span",
-        "wait_for": "div.sc-65e7f566-0.kRIzHD",
+        "selector": "[data-role='content-wrapper']",  # ✅ Контейнер с 3 карточками
+        "wait_for": "[data-role='content-wrapper']",
         "telegram_title": "💎 Ethereum ETF Tracker",
         "telegram_hashtags": "#Ethereum #ETF #ETH",
         "enabled": True,
@@ -52,8 +52,8 @@ SCREENSHOT_SOURCES = {
     "btc_etf": {
         "name": "Bitcoin ETF Tracker",
         "url": "https://coinmarketcap.com/etf/bitcoin/",
-        "selector": "#__next > div.sc-97df1870-1.laPgsv.global-layout-v2 > div.main-content > div.cmc-body-wrapper > div > div > div.sc-65e7f566-0.jpCqhh > div > div.sc-65e7f566-0.dyAjoq > div.sc-65e7f566-0.cXxTPe > div > div > div.sc-65e7f566-0.dUpMa-D > div > div:nth-child(1) > div > div.sc-65e7f566-0.kRIzHD > span",
-        "wait_for": "div.sc-65e7f566-0.kRIzHD",
+        "selector": "[data-role='content-wrapper']",  # ✅ Контейнер с 3 карточками
+        "wait_for": "[data-role='content-wrapper']",
         "telegram_title": "₿ Bitcoin ETF Tracker",
         "telegram_hashtags": "#Bitcoin #ETF #BTC",
         "enabled": True,
