@@ -30,8 +30,8 @@ SCREENSHOT_SOURCES = {
     "btc_dominance": {
         "name": "Bitcoin Dominance",
         "url": "https://coinmarketcap.com/charts/bitcoin-dominance/",
-        "selector": "#__next > div.sc-97df1870-1.laPgsv.global-layout-v2 > div.main-content > div.cmc-body-wrapper > div > div > div.sc-65e7f566-0.jpCqhh > div > div > div.sc-65e7f566-0.izPDqH > div.sc-65e7f566-0.gWkXfC > div.sc-65e7f566-0.cOcRup > div > div.sc-65e7f566-0.lhhnRU",
-        "wait_for": "div.sc-65e7f566-0.lhhnRU",
+        "selector": "div.gWkXfC",  # ✅ Контейнер со всеми 3 блоками
+        "wait_for": "div.gWkXfC",
         "telegram_title": "₿ Bitcoin Dominance",
         "telegram_hashtags": "#Bitcoin #BTC #Dominance",
         "enabled": True,
@@ -117,7 +117,7 @@ SCREENSHOT_SOURCES = {
 
 # Настройки для обработки изображений
 IMAGE_SETTINGS = {
-    "telegram_max_width": 1280,
+    "telegram_max_width": 800,  # ✅ Уменьшено с 1280 до 800 для соответствия ширине текста
     "telegram_max_height": 1280,
     "quality": 85,
     "format": "JPEG",
