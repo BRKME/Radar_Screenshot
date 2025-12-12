@@ -13,7 +13,10 @@ SCREENSHOT_SOURCES = {
         "telegram_title": "📊 Fear & Greed Index",
         "telegram_hashtags": "#FearAndGreed #CryptoSentiment #Bitcoin",
         "enabled": True,
-        "priority": 1
+        "priority": 1,
+        "skip_width_padding": True,  # ✅ НЕ добавлять боковой padding
+        "element_padding": {"top": 50, "right": 20, "bottom": 50, "left": 20},
+        "scale": 1.3
     },
     
     "altcoin_season": {
@@ -24,7 +27,10 @@ SCREENSHOT_SOURCES = {
         "telegram_title": "🌈 Altcoin Season Index",
         "telegram_hashtags": "#AltcoinSeason #Altcoins #CryptoMarket",
         "enabled": True,
-        "priority": 2
+        "priority": 2,
+        "skip_width_padding": True,  # ✅ НЕ добавлять боковой padding
+        "element_padding": {"top": 50, "right": 20, "bottom": 50, "left": 20},
+        "scale": 1.3
     },
     
     "btc_dominance": {
@@ -35,33 +41,36 @@ SCREENSHOT_SOURCES = {
         "telegram_title": "₿ Bitcoin Dominance",
         "telegram_hashtags": "#Bitcoin #BTC #Dominance",
         "enabled": True,
-        "priority": 3
+        "priority": 3,
+        "skip_width_padding": True,  # ✅ НЕ добавлять боковой padding
+        "element_padding": {"top": 50, "right": 20, "bottom": 50, "left": 20},
+        "scale": 1.3
     },
     
     "eth_etf": {
         "name": "Ethereum ETF Tracker",
         "url": "https://coinmarketcap.com/etf/ethereum/",
-        "selector": "[data-role='content-wrapper']",  # ✅ Контейнер с 3 карточками
+        "selector": "[data-role='content-wrapper']",
         "wait_for": "[data-role='content-wrapper']",
         "telegram_title": "💎 Ethereum ETF Tracker",
         "telegram_hashtags": "#Ethereum #ETF #ETH",
         "enabled": True,
         "priority": 4,
-        "element_padding": 100,  # ✅ Дополнительный padding вокруг элемента
-        "scale": 1.5  # ✅ Увеличение масштаба в 1.5 раза (CSS zoom)
+        "element_padding": {"top": 150, "right": 100, "bottom": 100, "left": 100},  # ✅ Больше padding сверху для заголовка
+        "scale": 1.5
     },
     
     "btc_etf": {
         "name": "Bitcoin ETF Tracker",
         "url": "https://coinmarketcap.com/etf/bitcoin/",
-        "selector": "[data-role='content-wrapper']",  # ✅ Контейнер с 3 карточками
+        "selector": "[data-role='content-wrapper']",
         "wait_for": "[data-role='content-wrapper']",
         "telegram_title": "₿ Bitcoin ETF Tracker",
         "telegram_hashtags": "#Bitcoin #ETF #BTC",
         "enabled": True,
         "priority": 5,
-        "element_padding": 100,  # ✅ Дополнительный padding вокруг элемента
-        "scale": 1.5  # ✅ Увеличение масштаба в 1.5 раза (CSS zoom)
+        "element_padding": {"top": 150, "right": 100, "bottom": 100, "left": 100},  # ✅ Больше padding сверху для заголовка
+        "scale": 1.5
     },
     
     "derivatives": {
@@ -94,7 +103,10 @@ SCREENSHOT_SOURCES = {
         "telegram_title": "🔓 Cliff Unlocks Next 7D",
         "telegram_hashtags": "#TokenUnlocks #Vesting #Crypto",
         "enabled": True,
-        "priority": 8
+        "priority": 8,
+        "skip_width_padding": True,  # ✅ НЕ добавлять боковой padding
+        "element_padding": {"top": 50, "right": 20, "bottom": 50, "left": 20},
+        "scale": 2.0  # ✅ Увеличить в 2 раза
     },
     
     "heatmap": {
@@ -105,7 +117,8 @@ SCREENSHOT_SOURCES = {
         "telegram_title": "🔥 Crypto Market Map",
         "telegram_hashtags": "#Heatmap #Crypto #Market",
         "enabled": True,
-        "priority": 9
+        "priority": 9,
+        "close_modal": True  # ✅ Закрыть модальное окно перед скриншотом
     }
 }
 
