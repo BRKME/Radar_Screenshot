@@ -274,6 +274,11 @@ def optimize_image_for_telegram(image_path):
             background.paste(img, mask=img.split()[-1] if img.mode in ('RGBA', 'LA') else None)
             img = background
         
+        # CRITICAL: Валидация размеров изображения
+        if img.size[0] == 0 or img.size[1] == 0:
+            logger.error(f"  ✗ ОШИБКА: Изображение имеет нулевые размеры: {img.size[0]}x{img.size[1]}")
+            return None
+        
         # Изменяем размер если больше лимита
         max_width = IMAGE_SETTINGS['telegram_max_width']
         max_height = IMAGE_SETTINGS['telegram_max_height']
@@ -281,6 +286,38 @@ def optimize_image_for_telegram(image_path):
         if img.size[0] > max_width or img.size[1] > max_height:
             img.thumbnail((max_width, max_height), Image.Resampling.LANCZOS)
             logger.info(f"  Изменен размер: {img.size[0]}x{img.size[1]}")
+        
+        # Добавляем padding если изображение слишком узкое
+        min_width = IMAGE_SETTINGS.get('telegram_min_width', 0)
+        add_padding = IMAGE_SETTINGS.get('add_padding_if_narrow', False)
+        
+        if add_padding and img.size[0] < min_width:
+            padding_color = IMAGE_SETTINGS.get('padding_color', (255, 255, 255))
+            
+            # Валидация padding_color
+            if not (isinstance(padding_color, tuple) and len(padding_color) == 3):
+                logger.warning(f"  ⚠️ Некорректный padding_color: {padding_color}, используем белый")
+                padding_color = (255, 255, 255)
+            else:
+                r, g, b = padding_color
+                if not (0 <= r <= 255 and 0 <= g <= 255 and 0 <= b <= 255):
+                    logger.warning(f"  ⚠️ padding_color вне диапазона 0-255: {padding_color}, используем белый")
+                    padding_color = (255, 255, 255)
+            
+            # Сохраняем исходную ширину для логирования
+            original_width = img.size[0]
+            
+            # Создаем новое изображение с нужной шириной
+            new_width = min_width
+            new_height = img.size[1]
+            new_img = Image.new('RGB', (new_width, new_height), padding_color)
+            
+            # Центрируем исходное изображение
+            paste_x = (new_width - img.size[0]) // 2
+            new_img.paste(img, (paste_x, 0))
+            
+            img = new_img
+            logger.info(f"  ✓ Добавлен padding: {img.size[0]}x{img.size[1]} (было {original_width}px, padding {paste_x}px с каждой стороны)")
         
         # Сохраняем оптимизированное изображение
         # FIX BUG #1: Правильная обработка любого расширения
@@ -606,58 +643,13 @@ async def take_screenshot(page, source_config, source_key):
             except Exception as e:
                 logger.warning(f"⚠️ Элемент не найден за 15 сек: {wait_for}")
         
-        # Token unlocks специальная обработка
-        if source_key == "token_unlocks":
+        # Специальная обработка для heatmap (coin360.com)
+        if source_key == "heatmap":
             try:
-                await page.evaluate("""
-                    () => {
-                        // Прокручиваем страницу наверх
-                        window.scrollTo(0, 0);
-                        
-                        // Удаляем все cookie баннеры
-                        const removeElements = [
-                            ...document.querySelectorAll('[class*="cookie"]'),
-                            ...document.querySelectorAll('[class*="consent"]'),
-                            ...document.querySelectorAll('[role="dialog"]'),
-                            ...document.querySelectorAll('[class*="modal"]'),
-                            ...document.querySelectorAll('div[style*="position: fixed"]'),
-                        ];
-                        
-                        removeElements.forEach(el => {
-                            const text = el.textContent.toLowerCase();
-                            if (text.includes('cookie') || 
-                                text.includes('by using') ||
-                                text.includes('consent') ||
-                                text.includes('agree')) {
-                                el.remove();
-                                console.log('Removed banner:', el.className);
-                            }
-                        });
-                        
-                        // ✅ НОВОЕ: Скрываем все строки после первых 5
-                        const table = document.querySelector('table');
-                        if (table) {
-                            const tbody = table.querySelector('tbody');
-                            if (tbody) {
-                                const rows = tbody.querySelectorAll('tr');
-                                console.log(`Found ${rows.length} rows in table`);
-                                
-                                // Скрываем строки начиная с 6-й (индекс 5)
-                                rows.forEach((row, index) => {
-                                    if (index >= 5) {
-                                        row.style.display = 'none';
-                                        console.log(`Hidden row ${index + 1}`);
-                                    }
-                                });
-                                console.log('Showing only first 5 rows');
-                            }
-                        }
-                    }
-                """)
-                logger.info("✓ Token unlocks: прокручено вверх, баннеры удалены, оставлены первые 5 строк")
-                await asyncio.sleep(1)
+                await asyncio.sleep(3)  # Дополнительная задержка для рендеринга canvas
+                logger.info("✓ Heatmap: дополнительная задержка 3 сек для загрузки canvas")
             except Exception as e:
-                logger.warning(f"⚠️ Не удалось обработать token_unlocks: {e}")
+                logger.warning(f"⚠️ Не удалось обработать heatmap: {e}")
         
         # Делаем скриншот
         timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
