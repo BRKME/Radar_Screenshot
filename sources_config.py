@@ -84,13 +84,24 @@ SCREENSHOT_SOURCES = {
     
     "token_unlocks": {
         "name": "Token Unlocks",
-        "url": "https://dropstab.com/vesting",
-        "selector": "main",  # ✅ Захватываем весь main, JS скроет лишние строки
-        "wait_for": "table",
-        "telegram_title": "🔓 Token Unlocks Calendar",
+        "url": "https://tokenomist.ai/",
+        "selector": "[role='group'][aria-roledescription='slide']",  # Карточка с Cliff Unlocks
+        "wait_for": "[role='group'][aria-roledescription='slide']",
+        "telegram_title": "🔓 Cliff Unlocks Next 7D",
         "telegram_hashtags": "#TokenUnlocks #Vesting #Crypto",
         "enabled": True,
         "priority": 8
+    },
+    
+    "heatmap": {
+        "name": "Crypto Heatmap",
+        "url": "https://coin360.com/",
+        "selector": None,  # Временно весь viewport, можно уточнить селектор
+        "wait_for": "canvas",  # Ждем canvas с heatmap
+        "telegram_title": "🔥 Crypto Market Map",
+        "telegram_hashtags": "#Heatmap #Crypto #Market",
+        "enabled": True,
+        "priority": 9
     }
 }
 
@@ -117,11 +128,14 @@ SCREENSHOT_SOURCES = {
 
 # Настройки для обработки изображений
 IMAGE_SETTINGS = {
-    "telegram_max_width": 800,  # ✅ Уменьшено с 1280 до 800 для соответствия ширине текста
+    "telegram_max_width": 1200,  # ✅ Увеличено до 1200 для полной ширины в Telegram
+    "telegram_min_width": 1000,  # ✅ Минимальная ширина (добавляем padding если меньше)
     "telegram_max_height": 1280,
     "quality": 85,
     "format": "JPEG",
-    "crop_padding": 20
+    "crop_padding": 20,
+    "add_padding_if_narrow": True,  # ✅ Добавлять padding если изображение узкое
+    "padding_color": (255, 255, 255)  # Белый цвет padding (или (240, 242, 245) для светло-серого)
 }
 
 # Настройки скриншотов
