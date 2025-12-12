@@ -656,14 +656,54 @@ async def take_screenshot(page, source_config, source_key):
         screenshot_path = os.path.join(SCREENSHOTS_DIR, f"{source_key}_{timestamp}.png")
         
         selector = source_config.get('selector')
+        element_padding = source_config.get('element_padding', 0)  # Дополнительный padding вокруг элемента
+        scale = source_config.get('scale', 1.0)  # Масштаб элемента (CSS zoom)
         
         if selector:
             # Скриншот конкретного элемента
             try:
                 element = await page.query_selector(selector)
                 if element:
-                    await element.screenshot(path=screenshot_path)
-                    logger.info(f"✓ Скриншот элемента сохранен: {screenshot_path}")
+                    # Применяем масштабирование если нужно
+                    if scale != 1.0:
+                        try:
+                            await page.evaluate("""(args) => {
+                                const el = document.querySelector(args.selector);
+                                if (el) {
+                                    el.style.transform = 'scale(' + args.scale + ')';
+                                    el.style.transformOrigin = 'top left';
+                                }
+                            }""", {"selector": selector, "scale": scale})
+                            await asyncio.sleep(0.5)  # Даем время на применение стилей
+                            logger.info(f"  ✓ Применен масштаб {scale}x")
+                        except Exception as e:
+                            logger.warning(f"  ⚠️ Не удалось применить масштаб: {e}")
+                    
+                    if element_padding > 0:
+                        # Получаем bounding box элемента
+                        box = await element.bounding_box()
+                        if box:
+                            # Учитываем масштаб при расчете padding
+                            scaled_width = box['width'] * scale
+                            scaled_height = box['height'] * scale
+                            
+                            # Добавляем padding
+                            clip = {
+                                'x': max(0, box['x'] - element_padding),
+                                'y': max(0, box['y'] - element_padding),
+                                'width': min(page.viewport_size['width'], scaled_width + 2 * element_padding),
+                                'height': min(page.viewport_size['height'], scaled_height + 2 * element_padding)
+                            }
+                            await page.screenshot(path=screenshot_path, clip=clip)
+                            logger.info(f"✓ Скриншот элемента с padding {element_padding}px и scale {scale}x сохранен")
+                        else:
+                            # Fallback: обычный скриншот элемента
+                            await element.screenshot(path=screenshot_path)
+                            logger.info(f"✓ Скриншот элемента сохранен: {screenshot_path}")
+                    else:
+                        # Обычный скриншот элемента без padding
+                        await element.screenshot(path=screenshot_path)
+                        logger.info(f"✓ Скриншот элемента сохранен: {screenshot_path}")
                 else:
                     logger.warning("⚠️ Элемент не найден, делаю скриншот всей страницы")
                     await page.screenshot(path=screenshot_path, full_page=False)
