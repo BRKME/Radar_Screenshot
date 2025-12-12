@@ -256,7 +256,7 @@ def cleanup_old_screenshots(max_age_hours=24):
         logger.warning(f"⚠️ Ошибка cleanup старых файлов: {e}")
 
 
-def optimize_image_for_telegram(image_path):
+def optimize_image_for_telegram(image_path, skip_width_padding=False):
     """Оптимизирует изображение для Telegram"""
     try:
         logger.info(f"🖼️  Оптимизация изображения: {image_path}")
@@ -287,11 +287,11 @@ def optimize_image_for_telegram(image_path):
             img.thumbnail((max_width, max_height), Image.Resampling.LANCZOS)
             logger.info(f"  Изменен размер: {img.size[0]}x{img.size[1]}")
         
-        # Добавляем padding если изображение слишком узкое
+        # Добавляем padding если изображение слишком узкое (если не отключено)
         min_width = IMAGE_SETTINGS.get('telegram_min_width', 0)
         add_padding = IMAGE_SETTINGS.get('add_padding_if_narrow', False)
         
-        if add_padding and img.size[0] < min_width:
+        if add_padding and not skip_width_padding and img.size[0] < min_width:
             padding_color = IMAGE_SETTINGS.get('padding_color', (255, 255, 255))
             
             # Валидация padding_color
@@ -655,9 +655,56 @@ async def take_screenshot(page, source_config, source_key):
         timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
         screenshot_path = os.path.join(SCREENSHOTS_DIR, f"{source_key}_{timestamp}.png")
         
+        # Закрываем модальное окно если требуется
+        close_modal = source_config.get('close_modal', False)
+        if close_modal:
+            try:
+                await page.evaluate("""() => {
+                    // Попытка закрыть модальное окно разными способами
+                    const closeSelectors = [
+                        '[aria-label="Close"]',
+                        '[data-dismiss="modal"]',
+                        '.close',
+                        '.modal-close',
+                        'button[class*="close"]',
+                        '[class*="closeButton"]'
+                    ];
+                    
+                    for (const sel of closeSelectors) {
+                        const btn = document.querySelector(sel);
+                        if (btn) {
+                            btn.click();
+                            return true;
+                        }
+                    }
+                    
+                    // Попытка убрать overlay
+                    const overlays = document.querySelectorAll('[class*="modal"], [class*="overlay"], [class*="popup"]');
+                    overlays.forEach(el => el.style.display = 'none');
+                    
+                    return false;
+                }""")
+                await asyncio.sleep(1)  # Даем время на закрытие
+                logger.info("  ✓ Попытка закрыть модальное окно")
+            except Exception as e:
+                logger.warning(f"  ⚠️ Не удалось закрыть модальное окно: {e}")
+        
         selector = source_config.get('selector')
-        element_padding = source_config.get('element_padding', 0)  # Дополнительный padding вокруг элемента
+        element_padding = source_config.get('element_padding', 0)  # Может быть int или dict
         scale = source_config.get('scale', 1.0)  # Масштаб элемента (CSS zoom)
+        
+        # Нормализуем element_padding в dict
+        if isinstance(element_padding, (int, float)):
+            padding_dict = {'top': element_padding, 'right': element_padding, 'bottom': element_padding, 'left': element_padding}
+        elif isinstance(element_padding, dict):
+            padding_dict = {
+                'top': element_padding.get('top', 0),
+                'right': element_padding.get('right', 0),
+                'bottom': element_padding.get('bottom', 0),
+                'left': element_padding.get('left', 0)
+            }
+        else:
+            padding_dict = {'top': 0, 'right': 0, 'bottom': 0, 'left': 0}
         
         if selector:
             # Скриншот конкретного элемента
@@ -679,23 +726,25 @@ async def take_screenshot(page, source_config, source_key):
                         except Exception as e:
                             logger.warning(f"  ⚠️ Не удалось применить масштаб: {e}")
                     
-                    if element_padding > 0:
+                    has_padding = any(v > 0 for v in padding_dict.values())
+                    
+                    if has_padding:
                         # Получаем bounding box элемента
                         box = await element.bounding_box()
                         if box:
-                            # Учитываем масштаб при расчете padding
+                            # Учитываем масштаб при расчете размеров
                             scaled_width = box['width'] * scale
                             scaled_height = box['height'] * scale
                             
-                            # Добавляем padding
+                            # Добавляем padding с учетом разных сторон
                             clip = {
-                                'x': max(0, box['x'] - element_padding),
-                                'y': max(0, box['y'] - element_padding),
-                                'width': min(page.viewport_size['width'], scaled_width + 2 * element_padding),
-                                'height': min(page.viewport_size['height'], scaled_height + 2 * element_padding)
+                                'x': max(0, box['x'] - padding_dict['left']),
+                                'y': max(0, box['y'] - padding_dict['top']),
+                                'width': min(page.viewport_size['width'], scaled_width + padding_dict['left'] + padding_dict['right']),
+                                'height': min(page.viewport_size['height'], scaled_height + padding_dict['top'] + padding_dict['bottom'])
                             }
                             await page.screenshot(path=screenshot_path, clip=clip)
-                            logger.info(f"✓ Скриншот элемента с padding {element_padding}px и scale {scale}x сохранен")
+                            logger.info(f"✓ Скриншот с padding (T:{padding_dict['top']} R:{padding_dict['right']} B:{padding_dict['bottom']} L:{padding_dict['left']}) и scale {scale}x")
                         else:
                             # Fallback: обычный скриншот элемента
                             await element.screenshot(path=screenshot_path)
@@ -716,7 +765,8 @@ async def take_screenshot(page, source_config, source_key):
             logger.info(f"✓ Скриншот страницы сохранен: {screenshot_path}")
         
         # Оптимизируем для Telegram
-        optimized_path = optimize_image_for_telegram(screenshot_path)
+        skip_width_padding = source_config.get('skip_width_padding', False)
+        optimized_path = optimize_image_for_telegram(screenshot_path, skip_width_padding=skip_width_padding)
         
         # FIX BUG #22: Проверяем что оптимизация успешна
         if not optimized_path:
