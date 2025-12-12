@@ -7,13 +7,13 @@
     "top_gainers": "2025-12-12T09:30:57.780136+00:00",
     "fear_greed": "2025-12-12T10:52:33.175812+00:00",
     "btc_dominance": "2025-12-12T11:43:57.758523+00:00",
-    "btc_etf": "2025-12-12T12:55:49.569434+00:00"
+    "btc_etf": "2025-12-12T14:24:31.676335+00:00"
   },
   "last_publication": {
-    "source": "token_unlocks",
-    "name": "Token Unlocks",
-    "published_at": "2025-12-12T13:39:26.886300+00:00",
-    "hour_utc": 13,
+    "source": "btc_etf",
+    "name": "Bitcoin ETF Tracker",
+    "published_at": "2025-12-12T14:24:31.676362+00:00",
+    "hour_utc": 14,
     "telegram": true,
     "twitter": false
   }
