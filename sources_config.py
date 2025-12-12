@@ -46,7 +46,9 @@ SCREENSHOT_SOURCES = {
         "telegram_title": "💎 Ethereum ETF Tracker",
         "telegram_hashtags": "#Ethereum #ETF #ETH",
         "enabled": True,
-        "priority": 4
+        "priority": 4,
+        "element_padding": 100,  # ✅ Дополнительный padding вокруг элемента
+        "scale": 1.5  # ✅ Увеличение масштаба в 1.5 раза (CSS zoom)
     },
     
     "btc_etf": {
@@ -57,7 +59,9 @@ SCREENSHOT_SOURCES = {
         "telegram_title": "₿ Bitcoin ETF Tracker",
         "telegram_hashtags": "#Bitcoin #ETF #BTC",
         "enabled": True,
-        "priority": 5
+        "priority": 5,
+        "element_padding": 100,  # ✅ Дополнительный padding вокруг элемента
+        "scale": 1.5  # ✅ Увеличение масштаба в 1.5 раза (CSS zoom)
     },
     
     "derivatives": {
