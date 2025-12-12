@@ -1,6 +1,6 @@
 {
   "last_published": {
-    "token_unlocks": "2025-12-12T06:41:22.876604+00:00",
+    "token_unlocks": "2025-12-12T10:30:11.064073+00:00",
     "altcoin_season": "2025-12-12T07:46:18.334883+00:00",
     "derivatives": "2025-12-10T12:58:24.353929+00:00",
     "eth_etf": "2025-12-12T08:37:40.259752+00:00",
@@ -10,10 +10,10 @@
     "btc_etf": "2025-12-12T05:49:03.416739+00:00"
   },
   "last_publication": {
-    "source": "top_gainers",
-    "name": "Top Gainers",
-    "published_at": "2025-12-12T09:30:57.780155+00:00",
-    "hour_utc": 9,
+    "source": "token_unlocks",
+    "name": "Token Unlocks",
+    "published_at": "2025-12-12T10:30:11.064091+00:00",
+    "hour_utc": 10,
     "telegram": true,
     "twitter": false
   }
