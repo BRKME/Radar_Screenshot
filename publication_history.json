@@ -6,14 +6,14 @@
     "eth_etf": "2025-12-11T22:49:55.466000+00:00",
     "top_gainers": "2025-12-11T16:38:49.539277+00:00",
     "fear_greed": "2025-12-12T03:45:55.529471+00:00",
-    "btc_dominance": "2025-12-11T22:26:38.343069+00:00",
+    "btc_dominance": "2025-12-12T04:38:06.703012+00:00",
     "btc_etf": "2025-12-12T02:04:49.417226+00:00"
   },
   "last_publication": {
-    "source": "fear_greed",
-    "name": "Crypto Fear & Greed Index",
-    "published_at": "2025-12-12T03:45:55.529490+00:00",
-    "hour_utc": 3,
+    "source": "btc_dominance",
+    "name": "Bitcoin Dominance",
+    "published_at": "2025-12-12T04:38:06.703031+00:00",
+    "hour_utc": 4,
     "telegram": true,
     "twitter": false
   }
