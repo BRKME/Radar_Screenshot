@@ -1,5 +1,16 @@
+# CMC Screenshots Bot Requirements
+# Version: 1.4.0 (with OpenAI Integration)
+
+# Core dependencies
 playwright==1.40.0
-beautifulsoup4==4.12.2
 requests==2.31.0
 tweepy==4.14.0
+python-dotenv==1.0.0
 Pillow==10.1.0
+
+# OpenAI Integration (NEW in v1.4.0)
+openai==1.54.3
+
+# Development
+pytest==7.4.3
+pytest-asyncio==0.21.1
