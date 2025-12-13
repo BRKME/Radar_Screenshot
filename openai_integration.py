@@ -17,8 +17,12 @@ OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 # Инициализация клиента
 client = None
 if OPENAI_API_KEY:
-    client = OpenAI(api_key=OPENAI_API_KEY)
-    logger.info("✓ OpenAI client initialized")
+    try:
+        client = OpenAI(api_key=OPENAI_API_KEY)
+        logger.info("✓ OpenAI client initialized")
+    except Exception as e:
+        logger.error(f"✗ Failed to initialize OpenAI client: {e}")
+        client = None
 else:
     logger.warning("⚠️ OPENAI_API_KEY not found - AI comments disabled")
 
