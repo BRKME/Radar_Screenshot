@@ -18,7 +18,7 @@ SCREENSHOT_SOURCES = {
         "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
         "scale": 1.0,  # ✅ Нормальный размер
         "hide_elements": "p, [class*='description'], [class*='Description'], [data-role='description']",  # ✅ Скрыть текстовые описания
-        "crop": {"top": 10, "right": 30, "bottom": 0, "left": 0}  # ✅ НОВОЕ: Обрезка справа и сверху
+        "crop": {"top": 50, "right": 30, "bottom": 50, "left": 0}  # ✅ Обрезка сверху, справа и снизу
     },
     
     "altcoin_season": {
@@ -33,7 +33,8 @@ SCREENSHOT_SOURCES = {
         "skip_width_padding": True,  # ✅ БЕЗ огромных полей
         "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
         "scale": 1.0,  # ✅ Нормальный размер
-        "hide_elements": "table, ul, ol, [class*='token'], [class*='Token'], [class*='list'], [class*='List']"  # ✅ Скрыть список токенов
+        "hide_elements": "table, ul, ol, [class*='token'], [class*='Token'], [class*='list'], [class*='List']",  # ✅ Скрыть список токенов
+        "crop": {"top": 50, "right": 0, "bottom": 50, "left": 0}  # ✅ Обрезка сверху и снизу
     },
     
     "btc_dominance": {
@@ -48,7 +49,8 @@ SCREENSHOT_SOURCES = {
         "skip_width_padding": True,  # ✅ БЕЗ огромных полей
         "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
         "scale": 1.0,  # ✅ Нормальный размер
-        "hide_elements": "table, ul, ol, [class*='list'], [class*='List']"  # ✅ Скрыть лишние списки
+        "hide_elements": "table, ul, ol, [class*='list'], [class*='List']",  # ✅ Скрыть лишние списки
+        "crop": {"top": 50, "right": 0, "bottom": 50, "left": 0}  # ✅ Обрезка сверху и снизу
     },
     
     "eth_etf": {
@@ -101,7 +103,8 @@ SCREENSHOT_SOURCES = {
         "priority": 7,
         "skip_width_padding": True,  # ✅ НЕ добавлять белый padding по бокам
         "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
-        "scale": 1.2  # ✅ Немного увеличить для читаемости
+        "scale": 1.0,  # ✅ Уменьшаем scale до 1.0 (было 1.2)
+        "crop": {"top": 20, "right": 20, "bottom": 20, "left": 20}  # ✅ Обрезка со всех сторон
     },
     
     "token_unlocks": {
@@ -116,7 +119,8 @@ SCREENSHOT_SOURCES = {
         "skip_width_padding": True,  # ✅ БЕЗ огромных полей
         "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
         "scale": 1.0,  # ✅ Нормальный размер
-        "hide_elements": "table, [class*='dashboard'], [class*='Dashboard'], [class*='trending'], [class*='Trending']"  # ✅ Скрыть таблицы и trending
+        "hide_elements": "table, [class*='dashboard'], [class*='Dashboard'], [class*='trending'], [class*='Trending']",  # ✅ Скрыть таблицы и trending
+        "crop": {"top": 30, "right": 30, "bottom": 30, "left": 30}  # ✅ Обрезка со всех сторон
     },
     
     "heatmap": {
