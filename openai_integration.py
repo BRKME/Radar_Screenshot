@@ -27,39 +27,143 @@ else:
     logger.warning("⚠️ OPENAI_API_KEY not found - AI comments disabled")
 
 
-# Промпты для разных типов источников
+# Промпты для разных типов источников - Alpha Take Style
 SOURCE_PROMPTS = {
-    "fear_greed": """Analyze this Fear & Greed Index screenshot. 
-Provide a brief 1-2 sentence summary of the current market sentiment and what it means.
-Then classify the overall sentiment as: Bullish, Bearish, or Neutral.""",
+    "fear_greed": """You are a professional crypto market analyst writing for a US-based institutional audience.
+
+Analyze this Fear & Greed Index screenshot and provide an Alpha Take.
+
+Rules:
+- Write 2-4 sentences in clear, professional American English
+- Explain why this level matters NOW and potential market behavior
+- Use probabilistic language (historically, often, tends to, may)
+- NO price targets, NO trading calls, NO hype, NO emojis
+- Focus on context and historical patterns
+
+Format your response as:
+ALPHA_TAKE: [your 2-4 sentence analysis]
+
+Example: "Extended fear zones have historically coincided with defensive positioning and lower volumes, often setting the stage for short-term relief moves if macro conditions stabilize. This environment favors patience and selectivity rather than aggressive risk-taking."
+""",
     
-    "altcoin_season": """Analyze this Altcoin Season Index screenshot.
-Provide a brief 1-2 sentence summary about whether we're in altcoin season or bitcoin season and what this means for traders.
-Then classify the overall sentiment as: Bullish, Bearish, or Neutral.""",
+    "altcoin_season": """You are a professional crypto market analyst writing for a US-based institutional audience.
+
+Analyze this Altcoin Season Index screenshot and provide an Alpha Take.
+
+Rules:
+- Write 2-4 sentences in clear, professional American English
+- Explain what the current reading means for market rotation and positioning
+- Use probabilistic language (historically, often, tends to, may)
+- NO price targets, NO trading calls, NO hype, NO emojis
+- Focus on capital flows and regime shifts
+
+Format your response as:
+ALPHA_TAKE: [your 2-4 sentence analysis]
+
+Example: "Readings below 25 indicate capital is rotating into Bitcoin, often reflecting risk-off sentiment within crypto. Historically, sustained Bitcoin dominance has preceded either broader market weakness or accumulation phases before the next alt cycle."
+""",
     
-    "btc_dominance": """Analyze this Bitcoin Dominance screenshot.
-Provide a brief 1-2 sentence summary of Bitcoin's market dominance and its implications.
-Then classify the overall sentiment as: Bullish, Bearish, or Neutral.""",
+    "btc_dominance": """You are a professional crypto market analyst writing for a US-based institutional audience.
+
+Analyze this Bitcoin Dominance screenshot and provide an Alpha Take.
+
+Rules:
+- Write 2-4 sentences in clear, professional American English  
+- Explain what current dominance means for market structure
+- Use probabilistic language (historically, often, tends to, may)
+- NO price targets, NO trading calls, NO hype, NO emojis
+- Focus on capital rotation and risk appetite
+
+Format your response as:
+ALPHA_TAKE: [your 2-4 sentence analysis]
+
+Example: "Bitcoin dominance near 60% typically signals risk-off behavior within crypto, with capital flowing into the perceived safety of BTC. This environment often persists until macro clarity improves or BTC itself establishes a clearer trend."
+""",
     
-    "eth_etf": """Analyze this Ethereum ETF flows screenshot.
-Provide a brief 1-2 sentence summary of the ETF flow trends and what they indicate.
-Then classify the overall sentiment as: Bullish, Bearish, or Neutral.""",
+    "eth_etf": """You are a professional crypto market analyst writing for a US-based institutional audience.
+
+Analyze this Ethereum ETF flows screenshot and provide an Alpha Take.
+
+Rules:
+- Write 2-4 sentences in clear, professional American English
+- Explain what the flow trends indicate about institutional demand
+- Use probabilistic language (historically, often, tends to, may)
+- NO price targets, NO trading calls, NO hype, NO emojis
+- Focus on flow patterns and demand signals
+
+Format your response as:
+ALPHA_TAKE: [your 2-4 sentence analysis]
+
+Example: "Mixed daily flows with negative monthly performance suggest institutions remain cautious on ETH exposure. This consolidation pattern often precedes either a catalyst-driven shift or extended sideways action until fundamentals re-rate."
+""",
     
-    "btc_etf": """Analyze this Bitcoin ETF flows screenshot.
-Provide a brief 1-2 sentence summary of the ETF flow trends and what they indicate.
-Then classify the overall sentiment as: Bullish, Bearish, or Neutral.""",
+    "btc_etf": """You are a professional crypto market analyst writing for a US-based institutional audience.
+
+Analyze this Bitcoin ETF flows screenshot and provide an Alpha Take.
+
+Rules:
+- Write 2-4 sentences in clear, professional American English
+- Explain what the flow trends signal about institutional appetite
+- Use probabilistic language (historically, often, tends to, may)
+- NO price targets, NO trading calls, NO hype, NO emojis
+- Focus on demand dynamics and flow sustainability
+
+Format your response as:
+ALPHA_TAKE: [your 2-4 sentence analysis]
+
+Example: "Sustained positive inflows after a period of outflows typically signal renewed institutional interest, though the magnitude matters more than direction alone. If this trend continues alongside improving macro conditions, it could support a more constructive setup."
+""",
     
-    "top_gainers": """Analyze this Top Gainers screenshot.
-Provide a brief 1-2 sentence summary of which tokens are pumping the most and overall market sentiment.
-Then classify the overall sentiment as: Bullish, Bearish, or Neutral.""",
+    "top_gainers": """You are a professional crypto market analyst writing for a US-based institutional audience.
+
+Analyze this Top Gainers screenshot and provide an Alpha Take.
+
+Rules:
+- Write 2-4 sentences in clear, professional American English
+- Explain what the gaining tokens reveal about market themes and risk appetite
+- Use probabilistic language (historically, often, tends to, may)
+- NO price targets, NO trading calls, NO hype, NO emojis
+- Focus on rotation patterns and sector strength
+
+Format your response as:
+ALPHA_TAKE: [your 2-4 sentence analysis]
+
+Example: "Multiple double-digit gainers across infrastructure tokens suggest rotation into fundamental-driven narratives rather than pure speculation. This pattern often emerges when risk appetite is improving but not yet fully extended, favoring selective positioning over broad exposure."
+""",
     
-    "token_unlocks": """Analyze this Token Unlocks screenshot.
-Provide a brief 1-2 sentence summary of upcoming cliff unlocks and potential market impact.
-Then classify the overall sentiment as: Bullish, Bearish, or Neutral.""",
+    "token_unlocks": """You are a professional crypto market analyst writing for a US-based institutional audience.
+
+Analyze this Token Unlocks screenshot and provide an Alpha Take.
+
+Rules:
+- Write 2-4 sentences in clear, professional American English
+- Explain the potential impact of upcoming unlocks on supply dynamics
+- Use probabilistic language (historically, often, tends to, may)
+- NO price targets, NO trading calls, NO hype, NO emojis
+- Focus on supply pressure and market absorption
+
+Format your response as:
+ALPHA_TAKE: [your 2-4 sentence analysis]
+
+Example: "Upcoming cliff unlocks totaling $98M are significant but manageable given current market depth. Historically, well-telegraphed unlocks see selling pressure frontrun, with actual unlock dates often marking local lows if broader market conditions hold."
+""",
     
-    "heatmap": """Analyze this Crypto Market Heatmap.
-Provide a brief 1-2 sentence summary of overall market performance and key trends.
-Then classify the overall sentiment as: Bullish, Bearish, or Neutral."""
+    "heatmap": """You are a professional crypto market analyst writing for a US-based institutional audience.
+
+Analyze this Crypto Market Heatmap and provide an Alpha Take.
+
+Rules:
+- Write 2-4 sentences in clear, professional American English
+- Explain what the overall performance pattern reveals about market structure
+- Use probabilistic language (historically, often, tends to, may)
+- NO price targets, NO trading calls, NO hype, NO emojis
+- Focus on breadth, rotation, and risk distribution
+
+Format your response as:
+ALPHA_TAKE: [your 2-4 sentence analysis]
+
+Example: "Broad-based weakness across mid-caps while large-caps hold suggests defensive positioning and liquidity contraction. This setup often persists until either catalysts emerge or capitulation creates asymmetric entry points in quality names."
+"""
 }
 
 
@@ -75,14 +179,14 @@ def encode_image_to_base64(image_path):
 
 def get_ai_comment(source_key, image_path):
     """
-    Получает AI комментарий от OpenAI для скриншота
+    Получает AI Alpha Take от OpenAI для скриншота
     
     Args:
         source_key: Ключ источника (fear_greed, btc_etf, etc)
         image_path: Путь к изображению скриншота
         
     Returns:
-        dict: {"comment": "...", "sentiment": "Bullish|Bearish|Neutral"}
+        dict: {"alpha_take": "..."}
         или None если ошибка
     """
     if not client:
@@ -101,24 +205,18 @@ def get_ai_comment(source_key, image_path):
         if not base64_image:
             return None
         
-        logger.info(f"🤖 Requesting AI comment from OpenAI for {source_key}...")
+        logger.info(f"🤖 Requesting Alpha Take from OpenAI for {source_key}...")
         
         # Вызываем OpenAI API
         response = client.chat.completions.create(
-            model="gpt-4o-mini",  # Быстрая и дешевая модель с vision
+            model="gpt-4o-mini",  # Быстрая модель с vision
             messages=[
                 {
                     "role": "user",
                     "content": [
                         {
                             "type": "text",
-                            "text": f"""{prompt}
-
-Format your response EXACTLY as:
-COMMENT: [your 1-2 sentence analysis]
-SENTIMENT: [Bullish|Bearish|Neutral]
-
-Be concise and specific. Focus on actionable insights."""
+                            "text": prompt
                         },
                         {
                             "type": "image_url",
@@ -129,7 +227,7 @@ Be concise and specific. Focus on actionable insights."""
                     ]
                 }
             ],
-            max_tokens=150,
+            max_tokens=200,  # Увеличено для Alpha Take (2-4 предложения)
             temperature=0.7
         )
         
@@ -137,75 +235,65 @@ Be concise and specific. Focus on actionable insights."""
         content = response.choices[0].message.content.strip()
         logger.info(f"  OpenAI response: {content}")
         
-        # Извлекаем comment и sentiment
-        comment = None
-        sentiment = None
+        # Извлекаем ALPHA_TAKE
+        alpha_take = None
         
         for line in content.split('\n'):
             line = line.strip()
-            if line.startswith('COMMENT:'):
-                comment = line.replace('COMMENT:', '').strip()
-            elif line.startswith('SENTIMENT:'):
-                sentiment_raw = line.replace('SENTIMENT:', '').strip()
-                # Нормализуем sentiment
-                if 'bullish' in sentiment_raw.lower():
-                    sentiment = 'Bullish'
-                elif 'bearish' in sentiment_raw.lower():
-                    sentiment = 'Bearish'
-                else:
-                    sentiment = 'Neutral'
+            if line.startswith('ALPHA_TAKE:'):
+                alpha_take = line.replace('ALPHA_TAKE:', '').strip()
+                break
         
         # Валидация
-        if not comment or not sentiment:
-            logger.warning(f"Could not parse AI response properly")
-            logger.warning(f"  Comment: {comment}")
-            logger.warning(f"  Sentiment: {sentiment}")
-            return None
+        if not alpha_take:
+            logger.warning(f"Could not parse Alpha Take from response")
+            logger.warning(f"  Response: {content}")
+            # Fallback: используем весь ответ если нет маркера
+            alpha_take = content
         
-        logger.info(f"  ✓ AI Comment: {comment}")
-        logger.info(f"  ✓ Sentiment: {sentiment}")
+        logger.info(f"  ✓ Alpha Take: {alpha_take}")
         
         return {
-            "comment": comment,
-            "sentiment": sentiment
+            "alpha_take": alpha_take
         }
         
     except Exception as e:
-        logger.error(f"Error getting AI comment: {e}")
+        logger.error(f"Error getting Alpha Take: {e}")
         import traceback
         traceback.print_exc()
         return None
 
 
-def format_sentiment_emoji(sentiment):
-    """Возвращает эмодзи для сентимента"""
-    if sentiment == 'Bullish':
-        return '🟢'
-    elif sentiment == 'Bearish':
-        return '🔴'
-    else:  # Neutral
-        return '⚪'
-
-
-def add_ai_comment_to_caption(caption, ai_result):
+def add_alpha_take_to_caption(title, hashtags, ai_result):
     """
-    Добавляет AI комментарий к caption
+    Добавляет Alpha Take к caption с правильным форматированием
+    
+    Format:
+    <title>
+    
+    Alpha Take
+    <alpha_take text>
+    
+    <hashtags>
     
     Args:
-        caption: Исходный caption
+        title: Заголовок поста
+        hashtags: Хештеги
         ai_result: Результат от get_ai_comment()
         
     Returns:
-        str: Caption с AI комментарием
+        str: Caption с Alpha Take
     """
     if not ai_result:
-        return caption
+        # Без AI - старый формат (title + hashtags)
+        return f"<b>{title}</b>\n\n{hashtags}"
     
-    comment = ai_result['comment']
-    sentiment = ai_result['sentiment']
-    emoji = format_sentiment_emoji(sentiment)
+    alpha_take = ai_result['alpha_take']
     
-    # Форматируем AI блок
-    ai_block = f"\n\n{emoji} <b>{sentiment}</b>\n{comment}"
+    # Новый формат: Title -> Alpha Take -> Alpha take text -> Hashtags
+    caption = f"<b>{title}</b>\n\n"
+    caption += f"<b>Alpha Take</b>\n"
+    caption += f"{alpha_take}\n\n"
+    caption += f"{hashtags}"
     
-    return caption + ai_block
+    return caption
