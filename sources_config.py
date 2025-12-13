@@ -8,29 +8,31 @@ SCREENSHOT_SOURCES = {
     "fear_greed": {
         "name": "Crypto Fear & Greed Index",
         "url": "https://coinmarketcap.com/charts/fear-and-greed-index/",
-        "selector": "#__next > div.sc-97df1870-1.laPgsv.global-layout-v2 > div.main-content > div.cmc-body-wrapper > div > div > div.sc-65e7f566-0.jpCqhh > div > div > div.sc-65e7f566-0.izPDqH > div.sc-65e7f566-0.kijrGb",
+        "selector": "div.sc-65e7f566-0.kijrGb",  # ✅ Упрощенный селектор - основной контейнер
         "wait_for": "div.sc-65e7f566-0.kijrGb",
         "telegram_title": "📊 Fear & Greed Index",
         "telegram_hashtags": "#FearAndGreed #CryptoSentiment #Bitcoin",
         "enabled": True,
         "priority": 1,
-        "skip_width_padding": True,  # ✅ НЕ добавлять боковой padding
-        "element_padding": {"top": 50, "right": 20, "bottom": 50, "left": 20},
-        "scale": 1.3
+        "skip_width_padding": True,  # ✅ БЕЗ огромных полей
+        "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
+        "scale": 1.0,  # ✅ Нормальный размер
+        "hide_elements": "p, [class*='description'], [class*='Description'], [data-role='description']"  # ✅ Скрыть текстовые описания
     },
     
     "altcoin_season": {
         "name": "Altcoin Season Index",
         "url": "https://coinmarketcap.com/charts/altcoin-season-index/",
-        "selector": "div.kunWxz",  # ✅ Контейнер с 3 блоками
+        "selector": "div.kunWxz",  # ✅ Контейнер с основными блоками
         "wait_for": "div.kunWxz",
         "telegram_title": "🌈 Altcoin Season Index",
         "telegram_hashtags": "#AltcoinSeason #Altcoins #CryptoMarket",
         "enabled": True,
         "priority": 2,
-        "skip_width_padding": True,  # ✅ НЕ добавлять боковой padding
-        "element_padding": {"top": 50, "right": 20, "bottom": 50, "left": 20},
-        "scale": 1.3
+        "skip_width_padding": True,  # ✅ БЕЗ огромных полей
+        "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
+        "scale": 1.0,  # ✅ Нормальный размер
+        "hide_elements": "table, ul, ol, [class*='token'], [class*='Token'], [class*='list'], [class*='List']"  # ✅ Скрыть список токенов
     },
     
     "btc_dominance": {
@@ -42,35 +44,38 @@ SCREENSHOT_SOURCES = {
         "telegram_hashtags": "#Bitcoin #BTC #Dominance",
         "enabled": True,
         "priority": 3,
-        "skip_width_padding": True,  # ✅ НЕ добавлять боковой padding
-        "element_padding": {"top": 50, "right": 20, "bottom": 50, "left": 20},
-        "scale": 1.3
+        "skip_width_padding": True,  # ✅ БЕЗ огромных полей
+        "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
+        "scale": 1.0,  # ✅ Нормальный размер
+        "hide_elements": "table, ul, ol, [class*='list'], [class*='List']"  # ✅ Скрыть лишние списки
     },
     
     "eth_etf": {
         "name": "Ethereum ETF Tracker",
         "url": "https://coinmarketcap.com/etf/ethereum/",
-        "selector": "[data-role='content-wrapper']",
+        "selector": "[data-role='content-wrapper']",  # ✅ Селектор с 3 карточками
         "wait_for": "[data-role='content-wrapper']",
         "telegram_title": "💎 Ethereum ETF Tracker",
         "telegram_hashtags": "#Ethereum #ETF #ETH",
         "enabled": True,
         "priority": 4,
-        "element_padding": {"top": 150, "right": 100, "bottom": 100, "left": 100},  # ✅ Больше padding сверху для заголовка
-        "scale": 1.5
+        "skip_width_padding": True,  # ✅ БЕЗ огромных полей
+        "element_padding": {"top": 60, "right": 40, "bottom": 60, "left": 40},  # Небольшие отступы
+        "scale": 1.0  # ✅ Без увеличения (карточки нормального размера)
     },
     
     "btc_etf": {
         "name": "Bitcoin ETF Tracker",
         "url": "https://coinmarketcap.com/etf/bitcoin/",
-        "selector": "[data-role='content-wrapper']",
+        "selector": "[data-role='content-wrapper']",  # ✅ Селектор с 3 карточками
         "wait_for": "[data-role='content-wrapper']",
         "telegram_title": "₿ Bitcoin ETF Tracker",
         "telegram_hashtags": "#Bitcoin #ETF #BTC",
         "enabled": True,
         "priority": 5,
-        "element_padding": {"top": 150, "right": 100, "bottom": 100, "left": 100},  # ✅ Больше padding сверху для заголовка
-        "scale": 1.5
+        "skip_width_padding": True,  # ✅ БЕЗ огромных полей
+        "element_padding": {"top": 60, "right": 40, "bottom": 60, "left": 40},  # Небольшие отступы
+        "scale": 1.0  # ✅ Без увеличения (карточки нормального размера)
     },
     
     "derivatives": {
@@ -92,33 +97,37 @@ SCREENSHOT_SOURCES = {
         "telegram_title": "🚀 Top Gainers Today",
         "telegram_hashtags": "#TopGainers #Crypto #Movers",
         "enabled": True,
-        "priority": 7
+        "priority": 7,
+        "skip_width_padding": True,  # ✅ НЕ добавлять белый padding по бокам
+        "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
+        "scale": 1.2  # ✅ Немного увеличить для читаемости
     },
     
     "token_unlocks": {
         "name": "Token Unlocks",
         "url": "https://tokenomist.ai/",
-        "selector": None,  # ✅ Захватываем весь viewport (карточка будет видна)
-        "wait_for": "div",  # Ждем загрузки страницы
+        "selector": "[role='group'][aria-roledescription='slide']",  # ✅ Селектор для карточки
+        "wait_for": "[role='group'][aria-roledescription='slide']",
         "telegram_title": "🔓 Cliff Unlocks Next 7D",
         "telegram_hashtags": "#TokenUnlocks #Vesting #Crypto",
         "enabled": True,
         "priority": 8,
-        "skip_width_padding": True,  # ✅ НЕ добавлять боковой padding
-        "hide_elements": "table, [class*='table'], [class*='Table']",  # ✅ Скрыть таблицу внизу
-        "scale": 1.0  # ✅ Без увеличения (карточка уже видна хорошо)
+        "skip_width_padding": True,  # ✅ БЕЗ огромных полей
+        "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
+        "scale": 1.0,  # ✅ Нормальный размер
+        "hide_elements": "table, [class*='dashboard'], [class*='Dashboard'], [class*='trending'], [class*='Trending']"  # ✅ Скрыть таблицы и trending
     },
     
     "heatmap": {
         "name": "Crypto Heatmap",
         "url": "https://coin360.com/",
-        "selector": None,  # Временно весь viewport, можно уточнить селектор
-        "wait_for": "canvas",  # Ждем canvas с heatmap
+        "selector": None,
+        "wait_for": "canvas",
         "telegram_title": "🔥 Crypto Market Map",
         "telegram_hashtags": "#Heatmap #Crypto #Market",
-        "enabled": True,
+        "enabled": False,  # ❌ ОТКЛЮЧЕН - выглядит плохо
         "priority": 9,
-        "close_modal": True  # ✅ Закрыть модальное окно перед скриншотом
+        "close_modal": True
     }
 }
 
