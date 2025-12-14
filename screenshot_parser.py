@@ -17,7 +17,7 @@ from playwright.async_api import async_playwright
 import time
 import json
 import traceback
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import requests
 import os
 import sys
@@ -32,9 +32,11 @@ import html  # FIX ISSUE #26: Для HTML escaping
 # Импорты конфигурации
 from sources_config import (
     SCREENSHOT_SOURCES, 
+    POST_SCHEDULE,  # ✅ НОВОЕ: Расписание постов
     IMAGE_SETTINGS, 
     SCREENSHOT_SETTINGS
 )
+import random  # ✅ НОВОЕ: Для случайного выбора источников
 
 # Пытаемся импортировать fcntl (только Unix)
 try:
@@ -63,15 +65,15 @@ except ImportError as e:
     logger.warning(f"⚠️ OpenAI integration not available: {e}")
     def get_ai_comment(*args, **kwargs):
         return None
-    def add_alpha_take_to_caption(title, hashtags, *args, **kwargs):
-        return f"<b>{title}</b>\n\n{hashtags}"
+    def add_alpha_take_to_caption(title, hashtags_fallback, *args, **kwargs):
+        return f"<b>{title}</b>\n\n{hashtags_fallback}"
 except Exception as e:
     OPENAI_ENABLED = False
     logger.warning(f"⚠️ OpenAI integration error: {e}")
     def get_ai_comment(*args, **kwargs):
         return None
-    def add_alpha_take_to_caption(title, hashtags, *args, **kwargs):
-        return f"<b>{title}</b>\n\n{hashtags}"
+    def add_alpha_take_to_caption(title, hashtags_fallback, *args, **kwargs):
+        return f"<b>{title}</b>\n\n{hashtags_fallback}"
 
 # Глобальные настройки
 MAX_RETRIES = int(os.getenv('MAX_RETRIES', '2'))
@@ -674,8 +676,11 @@ async def take_screenshot(page, source_config, source_key):
         await accept_cookies(page)
         
         # Ожидание загрузки контента
-        logger.info("⏳ Ожидание загрузки контента (5 секунд)...")
-        await asyncio.sleep(5)
+        base_wait = 5
+        extra_wait = source_config.get('extra_wait', 0)
+        total_wait = base_wait + extra_wait
+        logger.info(f"⏳ Ожидание загрузки контента ({total_wait} секунд{' (+ ' + str(extra_wait) + ' extra)' if extra_wait > 0 else ''})...")
+        await asyncio.sleep(total_wait)
         
         # Ждем конкретный элемент если указан
         wait_for = source_config.get('wait_for')
@@ -916,37 +921,75 @@ async def take_screenshot(page, source_config, source_key):
                     logger.warning(f"⚠️ Cleanup warning: {cleanup_error}")
 
 
+def get_source_by_schedule():
+    """
+    Определяет источник для публикации по расписанию MSK
+    
+    Returns:
+        str: Ключ источника или None если не время публикации
+    """
+    # MSK = UTC+3
+    now_utc = datetime.now(timezone.utc)
+    now_msk = now_utc + timedelta(hours=3)
+    
+    hour_msk = now_msk.hour
+    minute_msk = now_msk.minute
+    current_time_msk = hour_msk + minute_msk / 60.0  # Время в виде float (например, 16.5 = 16:30)
+    
+    logger.info(f"\n⏰ Текущее время MSK: {hour_msk:02d}:{minute_msk:02d}")
+    logger.info(f"⏰ Текущее время UTC: {now_utc.hour:02d}:{now_utc.minute:02d}")
+    
+    # Проходим по всем слотам расписания
+    for slot_name, slot_config in POST_SCHEDULE.items():
+        time_range = slot_config['time_range_msk']
+        start_time, end_time = time_range
+        
+        # Проверяем попадание в временной диапазон
+        if start_time <= current_time_msk < end_time:
+            logger.info(f"📅 Слот расписания: {slot_name}")
+            logger.info(f"⏰ Время слота: {int(start_time):02d}:{int((start_time % 1) * 60):02d} - {int(end_time):02d}:{int((end_time % 1) * 60):02d} MSK")
+            
+            sources = slot_config['sources']
+            selection_type = slot_config['selection']
+            
+            # Случайный выбор из списка
+            if selection_type == 'random':
+                source_key = random.choice(sources)
+                logger.info(f"🎲 Случайный выбор из {len(sources)} источников: {source_key}")
+                return source_key
+            
+            # Фиксированный источник
+            elif selection_type == 'fixed':
+                source_key = sources[0]
+                logger.info(f"📌 Фиксированный источник: {source_key}")
+                return source_key
+            
+            # Условная логика (ETF Anomaly)
+            elif selection_type == 'conditional':
+                logger.info(f"⚠️ Условный слот: {slot_name}")
+                logger.info(f"ℹ️ Пока пропускаем - аномалии проверяются вручную")
+                # TODO: Реализовать проверку аномалий ETF
+                return None
+    
+    logger.info(f"⏰ Не время для публикации (текущее время MSK: {hour_msk:02d}:{minute_msk:02d})")
+    return None
+
+
 async def main_parser():
     """Главная функция парсера со скриншотами"""
     browser = None  # CRITICAL: Initialize before try block
     
     try:
         logger.info("="*70)
-        logger.info("🚀 ЗАПУСК ПАРСЕРА СКРИНШОТОВ v1.0")
+        logger.info("🚀 ЗАПУСК ПАРСЕРА СКРИНШОТОВ v2.0 - MSK SCHEDULE")
         logger.info("="*70)
         
-        # Определяем источник по времени с ротацией
-        now = datetime.now(timezone.utc)
-        current_hour = now.hour
-        current_minute = now.minute
+        # ✅ НОВОЕ: Определяем источник по расписанию MSK
+        source_key = get_source_by_schedule()
         
-        # Вычисляем слот: 48 слотов в сутки (каждые 30 минут)
-        # 00:00 → slot 0, 00:30 → slot 1, 01:00 → slot 2, и т.д.
-        slot = current_hour * 2 + (1 if current_minute >= 30 else 0)
-        
-        # Список всех активных источников
-        active_sources = [key for key, config in SCREENSHOT_SOURCES.items() 
-                        if config.get('enabled', True)]
-        
-        if not active_sources:
-            raise Exception("Нет активных источников!")
-        
-        # Берём источник по индексу (с циклом по кругу)
-        source_key = active_sources[slot % len(active_sources)]
-        
-        logger.info(f"\n⏰ Текущее время UTC: {current_hour:02d}:{current_minute:02d}")
-        logger.info(f"📍 Слот: {slot}/48")
-        logger.info(f"🔄 Активных источников: {len(active_sources)}")
+        if not source_key:
+            logger.info("⏰ Сейчас не время для публикации по расписанию")
+            return False
         
         source_config = SCREENSHOT_SOURCES.get(source_key)
         
@@ -957,8 +1000,7 @@ async def main_parser():
             logger.info(f"⚠️ Источник {source_key} отключен")
             return False
         
-        logger.info(f"\n⏰ Текущий час UTC: {current_hour}")
-        logger.info(f"📅 По расписанию: {source_config['name']}")
+        logger.info(f"📅 Выбранный источник: {source_config['name']}")
         
         async with async_playwright() as p:
             logger.info("🌐 Запуск браузера...")
@@ -970,19 +1012,63 @@ async def main_parser():
                     '--disable-setuid-sandbox',
                     '--disable-dev-shm-usage',
                     '--disable-gpu',
-                    '--single-process'
+                    '--single-process',
+                    '--disable-blink-features=AutomationControlled'  # ✅ Скрыть автоматизацию
                 ]
             )
 
+            # ✅ Получаем custom user-agent если задан в конфиге
+            custom_ua = source_config.get('custom_user_agent')
+            user_agent = custom_ua if custom_ua else 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+            
             context = await browser.new_context(
-                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                user_agent=user_agent,
                 viewport={
                     'width': SCREENSHOT_SETTINGS['viewport_width'], 
                     'height': SCREENSHOT_SETTINGS['viewport_height']
+                },
+                # ✅ Дополнительные headers для обхода блокировки
+                extra_http_headers={
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+                    'Sec-Fetch-Dest': 'document',
+                    'Sec-Fetch-Mode': 'navigate',
+                    'Sec-Fetch-Site': 'none',
+                    'Sec-Fetch-User': '?1'
                 }
             )
 
+            # ✅ Удаляем webdriver флаги
             page = await context.new_page()
+            
+            # ✅ Stealth mode если включен
+            if source_config.get('stealth_mode', False):
+                await page.add_init_script("""
+                    // Удаляем webdriver
+                    Object.defineProperty(navigator, 'webdriver', {
+                        get: () => undefined
+                    });
+                    
+                    // Скрываем automation
+                    Object.defineProperty(navigator, 'plugins', {
+                        get: () => [1, 2, 3, 4, 5]
+                    });
+                    
+                    Object.defineProperty(navigator, 'languages', {
+                        get: () => ['en-US', 'en']
+                    });
+                    
+                    // Chrome runtime
+                    window.chrome = {
+                        runtime: {}
+                    };
+                """)
+            else:
+                await page.add_init_script("""
+                    Object.defineProperty(navigator, 'webdriver', {
+                        get: () => undefined
+                    });
+                """)
             
             # Делаем скриншот с повторными попытками
             result = None
