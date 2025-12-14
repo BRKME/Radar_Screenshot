@@ -64,7 +64,8 @@ SCREENSHOT_SOURCES = {
         "priority": 4,
         "skip_width_padding": True,  # ✅ БЕЗ огромных полей
         "element_padding": {"top": 60, "right": 40, "bottom": 60, "left": 40},  # Небольшие отступы
-        "scale": 1.0  # ✅ Без увеличения (карточки нормального размера)
+        "scale": 1.0,  # ✅ Без увеличения (карточки нормального размера)
+        "crop": {"top": 50, "right": 30, "bottom": 0, "left": 0}  # ✅ Обрезка сверху и справа
     },
     
     "btc_etf": {
@@ -78,7 +79,8 @@ SCREENSHOT_SOURCES = {
         "priority": 5,
         "skip_width_padding": True,  # ✅ БЕЗ огромных полей
         "element_padding": {"top": 60, "right": 40, "bottom": 60, "left": 40},  # Небольшие отступы
-        "scale": 1.0  # ✅ Без увеличения (карточки нормального размера)
+        "scale": 1.0,  # ✅ Без увеличения (карточки нормального размера)
+        "crop": {"top": 50, "right": 30, "bottom": 0, "left": 0}  # ✅ Обрезка сверху и справа
     },
     
     "derivatives": {
@@ -120,7 +122,12 @@ SCREENSHOT_SOURCES = {
         "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
         "scale": 1.0,  # ✅ Нормальный размер
         "hide_elements": "table, [class*='dashboard'], [class*='Dashboard'], [class*='trending'], [class*='Trending']",  # ✅ Скрыть таблицы и trending
-        "crop": {"top": 30, "right": 30, "bottom": 30, "left": 30}  # ✅ Обрезка со всех сторон
+        "crop": {"top": 30, "right": 30, "bottom": 30, "left": 30},  # ✅ Обрезка со всех сторон
+        # ✅ BYPASS БЛОКИРОВКИ:
+        "bypass_cloudflare": True,  # Попытка обойти Cloudflare
+        "custom_user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "extra_wait": 10,  # Дополнительная задержка (10 секунд)
+        "stealth_mode": True  # Использовать stealth режим Playwright
     },
     
     "heatmap": {
@@ -156,6 +163,59 @@ SCREENSHOT_SOURCES = {
 #
 # ⚠️ ВАЖНО: Порядок источников в SCREENSHOT_SOURCES определяет порядок публикации!
 # ===============================================================================
+
+# ===============================================================================
+# РАСПИСАНИЕ - ГИБКАЯ ЛОГИКА ПО ВРЕМЕНИ MSK
+# ===============================================================================
+# Новая схема публикаций по времени MSK
+#
+# 16:30–17:00 MSK → Daily Market Sentiment
+#   Источники: fear_greed, altcoin_season, btc_dominance (ротация случайная)
+#
+# 18:30–19:00 MSK → Token Unlocks Watch
+#   Источник: token_unlocks
+#
+# 20:00–21:00 MSK → ETF Flows Desk
+#   Источники: btc_etf, eth_etf (ротация случайная)
+#
+# 22:00 MSK → Top Gainers Radar
+#   Источник: top_gainers
+#
+# 01:00 MSK (опционально) → ETF Anomaly / Market Alert
+#   Источники: btc_etf, eth_etf (только если поток >$100M)
+#   
+# MSK = UTC+3
+# ===============================================================================
+
+POST_SCHEDULE = {
+    "daily_market_sentiment": {
+        "time_range_msk": (16.5, 17.0),  # 16:30-17:00 MSK
+        "sources": ["fear_greed", "altcoin_season", "btc_dominance"],
+        "selection": "random"  # Случайный выбор
+    },
+    "token_unlocks_watch": {
+        "time_range_msk": (18.5, 19.0),  # 18:30-19:00 MSK
+        "sources": ["token_unlocks"],
+        "selection": "fixed"  # Фиксированный источник
+    },
+    "etf_flows_desk": {
+        "time_range_msk": (20.0, 21.0),  # 20:00-21:00 MSK
+        "sources": ["btc_etf", "eth_etf"],
+        "selection": "random"  # Случайный выбор
+    },
+    "top_gainers_radar": {
+        "time_range_msk": (22.0, 23.0),  # 22:00-23:00 MSK
+        "sources": ["top_gainers"],
+        "selection": "fixed"  # Фиксированный источник
+    },
+    "etf_anomaly": {
+        "time_range_msk": (1.0, 2.0),  # 01:00-02:00 MSK
+        "sources": ["btc_etf", "eth_etf"],
+        "selection": "conditional",  # Условный - только если аномалия
+        "condition": "flow_threshold",  # Проверка порога потока
+        "threshold": 100  # >$100M
+    }
+}
 
 # Настройки для обработки изображений
 IMAGE_SETTINGS = {
