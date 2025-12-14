@@ -189,27 +189,27 @@ SCREENSHOT_SOURCES = {
 
 POST_SCHEDULE = {
     "daily_market_sentiment": {
-        "time_range_msk": (16.5, 17.0),  # 16:30-17:00 MSK
+        "time_range_msk": (16.5, 17.0),  # 16:30-17:00 MSK (30 минут)
         "sources": ["fear_greed", "altcoin_season", "btc_dominance"],
         "selection": "random"  # Случайный выбор
     },
     "token_unlocks_watch": {
-        "time_range_msk": (18.5, 19.0),  # 18:30-19:00 MSK
+        "time_range_msk": (18.5, 19.0),  # 18:30-19:00 MSK (30 минут)
         "sources": ["token_unlocks"],
         "selection": "fixed"  # Фиксированный источник
     },
     "etf_flows_desk": {
-        "time_range_msk": (20.0, 21.0),  # 20:00-21:00 MSK
+        "time_range_msk": (20.0, 20.5),  # 20:00-20:30 MSK (30 минут) ✅ ИСПРАВЛЕНО!
         "sources": ["btc_etf", "eth_etf"],
         "selection": "random"  # Случайный выбор
     },
     "top_gainers_radar": {
-        "time_range_msk": (22.0, 23.0),  # 22:00-23:00 MSK
+        "time_range_msk": (22.0, 22.5),  # 22:00-22:30 MSK (30 минут) ✅ ИСПРАВЛЕНО!
         "sources": ["top_gainers"],
         "selection": "fixed"  # Фиксированный источник
     },
     "etf_anomaly": {
-        "time_range_msk": (1.0, 2.0),  # 01:00-02:00 MSK
+        "time_range_msk": (1.0, 1.5),  # 01:00-01:30 MSK (30 минут) ✅ ИСПРАВЛЕНО!
         "sources": ["btc_etf", "eth_etf"],
         "selection": "conditional",  # Условный - только если аномалия
         "condition": "flow_threshold",  # Проверка порога потока
