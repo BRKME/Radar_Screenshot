@@ -989,7 +989,7 @@ async def main_parser():
         
         if not source_key:
             logger.info("⏰ Сейчас не время для публикации по расписанию")
-            return False
+            return True  # ✅ Это не ошибка - просто не время
         
         source_config = SCREENSHOT_SOURCES.get(source_key)
         
@@ -998,7 +998,7 @@ async def main_parser():
         
         if not source_config.get('enabled', True):
             logger.info(f"⚠️ Источник {source_key} отключен")
-            return False
+            return True  # ✅ Это не ошибка - источник просто отключен
         
         logger.info(f"📅 Выбранный источник: {source_config['name']}")
         
@@ -1131,6 +1131,7 @@ async def main_parser():
             
             # Обновляем историю публикаций
             history = load_publication_history()
+            current_hour = datetime.now(timezone.utc).hour  # ✅ Добавил определение
             history["last_published"][source_key] = datetime.now(timezone.utc).isoformat()
             history["last_publication"] = {
                 "source": source_key,
