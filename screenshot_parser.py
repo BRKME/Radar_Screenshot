@@ -991,6 +991,21 @@ async def main_parser():
             logger.info("⏰ Сейчас не время для публикации по расписанию")
             return True  # ✅ Это не ошибка - просто не время
         
+        # ✅ ЗАЩИТА ОТ ДУБЛЕЙ: Проверяем когда последний раз публиковался этот источник
+        history = load_publication_history()
+        last_published = history.get("last_published", {}).get(source_key)
+        
+        if last_published:
+            last_time = datetime.fromisoformat(last_published)
+            now = datetime.now(timezone.utc)
+            time_since_last = (now - last_time).total_seconds() / 60  # минуты
+            
+            # Cooldown 30 минут - не публиковать один источник чаще
+            if time_since_last < 30:
+                logger.info(f"⏸️  Источник {source_key} уже публиковался {int(time_since_last)} минут назад")
+                logger.info(f"⏸️  Cooldown: ждем еще {int(30 - time_since_last)} минут")
+                return True  # ✅ Это не ошибка - просто cooldown
+        
         source_config = SCREENSHOT_SOURCES.get(source_key)
         
         if not source_config:
