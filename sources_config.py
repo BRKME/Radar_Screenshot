@@ -131,15 +131,17 @@ SCREENSHOT_SOURCES = {
     },
     
     "heatmap": {
-        "name": "Crypto Heatmap",
-        "url": "https://coin360.com/",
-        "selector": None,
-        "wait_for": "canvas",
-        "telegram_title": "🔥 Crypto Market Map",
-        "telegram_hashtags": "#Heatmap #Crypto #Market",
-        "enabled": False,  # ❌ ОТКЛЮЧЕН - выглядит плохо
-        "priority": 9,
-        "close_modal": True
+        "name": "Crypto Market Heatmap",
+        "url": "https://coincodex.com/heatmap/",
+        "selector": "div[id^='ccx-heat-map-container']",  # ✅ Точный селектор для контейнера
+        "wait_for": "canvas",  # Ждем canvas элемент (heatmap рисуется на canvas)
+        "telegram_title": "🗺️ Crypto Market Heatmap",
+        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
+        "enabled": True,  # ✅ ВКЛЮЧЕН
+        "priority": 8,
+        "extra_wait": 5,  # Дополнительно 5 секунд для полной загрузки amCharts
+        "viewport_width": 1920,  # Широкий viewport для детализации
+        "viewport_height": 1080
     }
 }
 
@@ -188,6 +190,11 @@ SCREENSHOT_SOURCES = {
 # ===============================================================================
 
 POST_SCHEDULE = {
+    "market_breadth_morning": {
+        "time_range_msk": (10.0, 10.5),  # 10:00-10:30 MSK (30 минут)
+        "sources": ["heatmap"],
+        "selection": "fixed"  # Фиксированный источник
+    },
     "daily_market_sentiment": {
         "time_range_msk": (16.5, 17.0),  # 16:30-17:00 MSK (30 минут)
         "sources": ["fear_greed", "altcoin_season", "btc_dominance"],
