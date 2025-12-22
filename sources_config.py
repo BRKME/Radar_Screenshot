@@ -65,7 +65,8 @@ SCREENSHOT_SOURCES = {
         "skip_width_padding": True,  # ✅ БЕЗ огромных полей
         "element_padding": {"top": 60, "right": 40, "bottom": 60, "left": 40},  # Небольшие отступы
         "scale": 1.0,  # ✅ Без увеличения (карточки нормального размера)
-        "crop": {"top": 50, "right": 30, "bottom": 0, "left": 0}  # ✅ Обрезка сверху и справа
+        "crop": {"top": 50, "right": 30, "bottom": 0, "left": 0},  # ✅ Обрезка сверху и справа
+        "extra_wait": 10  # ✅ НОВОЕ: 10 секунд для загрузки свежих данных
     },
     
     "btc_etf": {
@@ -80,7 +81,8 @@ SCREENSHOT_SOURCES = {
         "skip_width_padding": True,  # ✅ БЕЗ огромных полей
         "element_padding": {"top": 60, "right": 40, "bottom": 60, "left": 40},  # Небольшие отступы
         "scale": 1.0,  # ✅ Без увеличения (карточки нормального размера)
-        "crop": {"top": 50, "right": 30, "bottom": 0, "left": 0}  # ✅ Обрезка сверху и справа
+        "crop": {"top": 50, "right": 30, "bottom": 0, "left": 0},  # ✅ Обрезка сверху и справа
+        "extra_wait": 10  # ✅ НОВОЕ: 10 секунд для загрузки свежих данных
     },
     
     "derivatives": {
@@ -205,22 +207,20 @@ POST_SCHEDULE = {
         "sources": ["token_unlocks"],
         "selection": "fixed"  # Фиксированный источник
     },
-    "etf_flows_desk": {
-        "time_range_msk": (20.0, 20.5),  # 20:00-20:30 MSK (30 минут) ✅ ИСПРАВЛЕНО!
-        "sources": ["btc_etf", "eth_etf"],
-        "selection": "random"  # Случайный выбор
+    "btc_etf_flows": {
+        "time_range_msk": (20.0, 20.5),  # 20:00-20:30 MSK (30 минут) ✅ НОВОЕ!
+        "sources": ["btc_etf"],
+        "selection": "fixed"  # BTC ETF каждый день
+    },
+    "eth_etf_flows": {
+        "time_range_msk": (20.5, 21.0),  # 20:30-21:00 MSK (30 минут) ✅ НОВОЕ!
+        "sources": ["eth_etf"],
+        "selection": "fixed"  # ETH ETF каждый день
     },
     "top_gainers_radar": {
-        "time_range_msk": (22.0, 22.5),  # 22:00-22:30 MSK (30 минут) ✅ ИСПРАВЛЕНО!
+        "time_range_msk": (22.0, 22.5),  # 22:00-22:30 MSK (30 минут)
         "sources": ["top_gainers"],
         "selection": "fixed"  # Фиксированный источник
-    },
-    "etf_anomaly": {
-        "time_range_msk": (1.0, 1.5),  # 01:00-01:30 MSK (30 минут) ✅ ИСПРАВЛЕНО!
-        "sources": ["btc_etf", "eth_etf"],
-        "selection": "conditional",  # Условный - только если аномалия
-        "condition": "flow_threshold",  # Проверка порога потока
-        "threshold": 100  # >$100M
     }
 }
 
