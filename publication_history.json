@@ -3,7 +3,7 @@
     "token_unlocks": "2025-12-23T15:52:23.808788+00:00",
     "altcoin_season": "2025-12-22T13:55:02.910400+00:00",
     "derivatives": "2025-12-10T12:58:24.353929+00:00",
-    "eth_etf": "2025-12-22T17:22:23.097051+00:00",
+    "eth_etf": "2025-12-23T17:51:29.419364+00:00",
     "top_gainers": "2025-12-22T19:24:43.427927+00:00",
     "fear_greed": "2025-12-21T13:49:58.439347+00:00",
     "btc_dominance": "2025-12-23T13:38:14.280145+00:00",
@@ -11,9 +11,9 @@
     "heatmap": "2025-12-23T07:02:03.848606+00:00"
   },
   "last_publication": {
-    "source": "btc_etf",
-    "name": "Bitcoin ETF Tracker",
-    "published_at": "2025-12-23T17:26:55.448328+00:00",
+    "source": "eth_etf",
+    "name": "Ethereum ETF Tracker",
+    "published_at": "2025-12-23T17:51:29.419383+00:00",
     "hour_utc": 17,
     "telegram": true,
     "twitter": false
