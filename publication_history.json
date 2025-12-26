@@ -8,13 +8,13 @@
     "fear_greed": "2025-12-26T13:34:42.817960+00:00",
     "btc_dominance": "2025-12-23T13:38:14.280145+00:00",
     "btc_etf": "2025-12-25T17:20:50.800082+00:00",
-    "heatmap": "2025-12-26T04:21:46.680763+00:00"
+    "heatmap": "2025-12-26T16:28:18.126854+00:00"
   },
   "last_publication": {
-    "source": "token_unlocks",
-    "name": "Token Unlocks",
-    "published_at": "2025-12-26T15:50:49.396716+00:00",
-    "hour_utc": 15,
+    "source": "heatmap",
+    "name": "Crypto Market Heatmap",
+    "published_at": "2025-12-26T16:28:18.126866+00:00",
+    "hour_utc": 16,
     "telegram": true,
     "twitter": false
   }
