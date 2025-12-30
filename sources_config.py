@@ -112,24 +112,15 @@ SCREENSHOT_SOURCES = {
     },
     
     "token_unlocks": {
-        "name": "Token Unlocks",
-        "url": "https://tokenomist.ai/",
-        "selector": "[role='group'][aria-roledescription='slide']",  # ✅ Селектор для карточки
-        "wait_for": "[role='group'][aria-roledescription='slide']",
-        "telegram_title": "🔓 Cliff Unlocks Next 7D",
+        "name": "Token Unlocks Next 7 Days",
+        "url": "https://dropstab.com/ru/vesting",
+        "selector": "table",
+        "wait_for": "table",
+        "telegram_title": "🔓 Token Unlocks Next 7 Days",
         "telegram_hashtags": "#TokenUnlocks #Vesting #Crypto",
         "enabled": True,
         "priority": 8,
-        "skip_width_padding": True,  # ✅ БЕЗ огромных полей
-        "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
-        "scale": 1.0,  # ✅ Нормальный размер
-        "hide_elements": "table, [class*='dashboard'], [class*='Dashboard'], [class*='trending'], [class*='Trending']",  # ✅ Скрыть таблицы и trending
-        "crop": {"top": 30, "right": 30, "bottom": 30, "left": 30},  # ✅ Обрезка со всех сторон
-        # ✅ BYPASS БЛОКИРОВКИ:
-        "bypass_cloudflare": True,  # Попытка обойти Cloudflare
-        "custom_user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "extra_wait": 10,  # Дополнительная задержка (10 секунд)
-        "stealth_mode": True  # Использовать stealth режим Playwright
+        "extra_wait": 5
     },
     
     "heatmap": {
