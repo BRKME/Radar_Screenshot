@@ -1119,7 +1119,8 @@ async def main_parser():
             
             # 🤖 ALPHA TAKE от OpenAI
             ai_result = None
-            if OPENAI_ENABLED:
+            skip_ai = source_config.get('skip_ai', False)
+            if OPENAI_ENABLED and not skip_ai:
                 logger.info("\n🤖 ГЕНЕРАЦИЯ ALPHA TAKE")
                 ai_result = get_ai_comment(source_key, result['screenshot_path'])
                 if ai_result:
@@ -1127,7 +1128,10 @@ async def main_parser():
                 else:
                     logger.info("  ⚠️ Alpha Take не получен")
             else:
-                logger.info("  ℹ️  OpenAI отключен")
+                if skip_ai:
+                    logger.info("  ℹ️  AI отключен для этого источника (skip_ai=True)")
+                else:
+                    logger.info("  ℹ️  OpenAI отключен")
             
             # Формируем финальный caption
             caption = add_alpha_take_to_caption(title_escaped, hashtags_escaped, ai_result)
