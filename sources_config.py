@@ -121,7 +121,7 @@ SCREENSHOT_SOURCES = {
         "enabled": True,
         "priority": 8,
         "extra_wait": 5,
-        "crop": {"top": 0, "right": 0, "bottom": 700, "left": 0},
+        "crop": {"top": 0, "right": 0, "bottom": 1100, "left": 0},
         "skip_ai": True
     },
     
