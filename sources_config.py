@@ -123,7 +123,7 @@ SCREENSHOT_SOURCES = {
         "extra_wait": 5,
         "viewport_width": 1280,
         "viewport_height": 800,
-        "crop": {"top": 0, "right": 0, "bottom": 950, "left": 0},
+        "hide_elements": "table tbody tr:nth-child(n+7)",
         "skip_ai": True
     },
     
