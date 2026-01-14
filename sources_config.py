@@ -65,7 +65,7 @@ SCREENSHOT_SOURCES = {
         "skip_width_padding": True,
         "element_padding": {"top": 60, "right": 40, "bottom": 60, "left": 40},
         "scale": 1.0,
-        "crop": {"top": 50, "right": 30, "bottom": 150, "left": 0},
+        "crop": {"top": 50, "right": 30, "bottom": 220, "left": 0},
         "extra_wait": 10
     },
     
@@ -81,7 +81,7 @@ SCREENSHOT_SOURCES = {
         "skip_width_padding": True,
         "element_padding": {"top": 60, "right": 40, "bottom": 60, "left": 40},
         "scale": 1.0,
-        "crop": {"top": 50, "right": 30, "bottom": 150, "left": 0},
+        "crop": {"top": 50, "right": 30, "bottom": 220, "left": 0},
         "extra_wait": 10
     },
     
