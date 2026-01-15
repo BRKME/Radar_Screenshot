@@ -115,15 +115,15 @@ SCREENSHOT_SOURCES = {
         "name": "Token Unlocks Next 7 Days",
         "url": "https://dropstab.com/vesting",
         "selector": "table",
-        "wait_for": "table",
+        "wait_for": "table tbody tr",
         "telegram_title": "🔓 Token Unlocks Next 7 Days",
         "telegram_hashtags": "#TokenUnlocks #Vesting #Crypto",
         "enabled": True,
         "priority": 8,
-        "extra_wait": 5,
+        "extra_wait": 15,
         "viewport_width": 1280,
         "viewport_height": 800,
-        "hide_elements": "table tbody tr:nth-child(n+7), [class*='banner'], [class*='ad'], [class*='advertisement'], iframe, [id*='ad'], aside",
+        "hide_elements": "aside, nav, header, [class*='sidebar'], [class*='menu'], [class*='nav'], table tbody tr:nth-child(n+7), [class*='banner'], [class*='ad'], [class*='advertisement'], iframe, [id*='ad'], .description, h1, p",
         "skip_ai": True
     },
     
