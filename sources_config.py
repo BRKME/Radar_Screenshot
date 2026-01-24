@@ -24,17 +24,16 @@ SCREENSHOT_SOURCES = {
     "altcoin_season": {
         "name": "Altcoin Season Index",
         "url": "https://coinmarketcap.com/charts/altcoin-season-index/",
-        "selector": "div.kunWxz",  # ✅ Контейнер с основными блоками
-        "wait_for": "div.kunWxz",
+        "selector": "body",
+        "wait_for": "[class*='main-content']",
         "telegram_title": "🌈 Altcoin Season Index",
         "telegram_hashtags": "#AltcoinSeason #Altcoins #CryptoMarket",
         "enabled": True,
         "priority": 2,
-        "skip_width_padding": True,  # ✅ БЕЗ огромных полей
-        "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
-        "scale": 1.0,  # ✅ Нормальный размер
-        "hide_elements": "table, ul, ol, [class*='token'], [class*='Token'], [class*='list'], [class*='List']",  # ✅ Скрыть список токенов
-        "crop": {"top": 50, "right": 0, "bottom": 50, "left": 0}  # ✅ Обрезка сверху и снизу
+        "viewport_width": 1280,
+        "viewport_height": 800,
+        "hide_elements": "aside, nav, header, footer, [class*='sidebar'], [class*='banner'], [class*='ad'], iframe, .description, h1:not(:first-of-type), table, svg[class*='chart']",
+        "crop": {"top": 100, "right": 400, "bottom": 400, "left": 400}
     },
     
     "btc_dominance": {
