@@ -1119,13 +1119,6 @@ async def main_parser():
                     });
                 """)
             
-            # ✅ Cloudflare bypass для heatmap
-            if source_key == 'heatmap':
-                logger.info(f"🛡️  Применяем Cloudflare bypass для heatmap")
-                await setup_stealth_mode(page)
-                await simulate_human_behavior(page)
-                await asyncio.sleep(random.uniform(2, 4))
-            
             # Делаем скриншот с повторными попытками
             result = None
             for retry in range(MAX_RETRIES + 1):
