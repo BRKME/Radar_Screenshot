@@ -975,6 +975,31 @@ def get_source_by_schedule():
     return None
 
 
+async def setup_stealth_mode(page):
+    """Cloudflare bypass: stealth mode + human behavior"""
+    await page.add_init_script("""
+        Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+        Object.defineProperty(navigator, 'plugins', {get: () => [1, 2, 3, 4, 5]});
+        Object.defineProperty(navigator, 'languages', {get: () => ['en-US', 'en']});
+        window.chrome = {runtime: {}};
+    """)
+    
+    await page.set_extra_http_headers({
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1'
+    })
+
+
+async def simulate_human_behavior(page):
+    """Random delays and mouse movements"""
+    await asyncio.sleep(random.uniform(1.5, 3.5))
+    await page.mouse.move(random.randint(100, 300), random.randint(100, 300))
+
+
 async def main_parser():
     """Главная функция парсера со скриншотами"""
     browser = None  # CRITICAL: Initialize before try block
@@ -1093,6 +1118,13 @@ async def main_parser():
                         get: () => undefined
                     });
                 """)
+            
+            # ✅ Cloudflare bypass для heatmap
+            if source_key == 'heatmap':
+                logger.info(f"🛡️  Применяем Cloudflare bypass для heatmap")
+                await setup_stealth_mode(page)
+                await simulate_human_behavior(page)
+                await asyncio.sleep(random.uniform(2, 4))
             
             # Делаем скриншот с повторными попытками
             result = None
