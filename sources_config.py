@@ -39,17 +39,16 @@ SCREENSHOT_SOURCES = {
     "btc_dominance": {
         "name": "Bitcoin Dominance",
         "url": "https://coinmarketcap.com/charts/bitcoin-dominance/",
-        "selector": "div.gWkXfC",  # ✅ Контейнер со всеми 3 блоками
-        "wait_for": "div.gWkXfC",
+        "selector": "body",
+        "wait_for": "[class*='main-content']",
         "telegram_title": "₿ Bitcoin Dominance",
         "telegram_hashtags": "#Bitcoin #BTC #Dominance",
         "enabled": True,
         "priority": 3,
-        "skip_width_padding": True,  # ✅ БЕЗ огромных полей
-        "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
-        "scale": 1.0,  # ✅ Нормальный размер
-        "hide_elements": "table, ul, ol, [class*='list'], [class*='List']",  # ✅ Скрыть лишние списки
-        "crop": {"top": 50, "right": 0, "bottom": 50, "left": 0}  # ✅ Обрезка сверху и снизу
+        "viewport_width": 1280,
+        "viewport_height": 800,
+        "hide_elements": "aside, nav, header, footer, [class*='sidebar'], [class*='banner'], [class*='ad'], iframe, .description, h1:not(:first-of-type), table, svg[class*='chart']",
+        "crop": {"top": 150, "right": 500, "bottom": 650, "left": 500}
     },
     
     "eth_etf": {
