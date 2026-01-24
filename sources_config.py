@@ -126,18 +126,22 @@ SCREENSHOT_SOURCES = {
         "skip_ai": True
     },
     
+    # HEATMAP: Primary source - CoinMarketCap
+    # FALLBACK option: https://www.coingecko.com/en/cryptocurrency-heatmap
     "heatmap": {
         "name": "Crypto Market Heatmap",
-        "url": "https://coincodex.com/heatmap/",
-        "selector": "canvas",
-        "wait_for": "canvas",
+        "url": "https://coinmarketcap.com/crypto-heatmap/",
+        "selector": "body",
+        "wait_for": "[class*='heatmap'], canvas",
         "telegram_title": "🗺️ Crypto Market Heatmap",
         "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
         "enabled": True,
         "priority": 8,
-        "extra_wait": 15,
+        "extra_wait": 10,
         "viewport_width": 1920,
-        "viewport_height": 1080
+        "viewport_height": 1080,
+        "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
+        "crop": {"top": 100, "right": 0, "bottom": 100, "left": 0}
     }
 }
 
