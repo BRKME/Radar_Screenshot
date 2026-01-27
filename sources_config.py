@@ -131,8 +131,8 @@ SCREENSHOT_SOURCES = {
     "heatmap": {
         "name": "Crypto Market Heatmap",
         "url": "https://www.coingecko.com/en/cryptocurrency-heatmap",
-        "selector": "body",
-        "wait_for": "svg, canvas, [class*='heatmap']",
+        "selector": "div[data-controller='heatmap']",
+        "wait_for": "svg.highcharts-root",
         "telegram_title": "🗺️ Crypto Market Heatmap",
         "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
         "enabled": True,
@@ -141,7 +141,7 @@ SCREENSHOT_SOURCES = {
         "viewport_width": 1920,
         "viewport_height": 1080,
         "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
-        "crop": {"top": 100, "right": 0, "bottom": 400, "left": 0}
+        "crop": {"top": 50, "right": 0, "bottom": 50, "left": 0}
     }
 }
 
