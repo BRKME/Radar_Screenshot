@@ -39,7 +39,7 @@ SCREENSHOT_SOURCES = {
     "btc_dominance": {
         "name": "Bitcoin Dominance",
         "url": "https://coinmarketcap.com/charts/bitcoin-dominance/",
-        "selector": "body",
+        "selector": ".qAEmk",
         "wait_for": "h2",
         "telegram_title": "₿ Bitcoin Dominance",
         "telegram_hashtags": "#Bitcoin #BTC #Dominance",
@@ -48,7 +48,7 @@ SCREENSHOT_SOURCES = {
         "viewport_width": 1280,
         "viewport_height": 800,
         "hide_elements": "aside, nav, header, footer, [class*='sidebar'], [class*='banner'], [class*='ad'], iframe, .description, h1:not(:first-of-type), table, svg[class*='chart']",
-        "crop": {"top": 150, "right": 500, "bottom": 650, "left": 500}
+        "crop": {"top": 0, "right": 0, "bottom": 20, "left": 0}
     },
     
     "eth_etf": {
@@ -132,12 +132,12 @@ SCREENSHOT_SOURCES = {
         "name": "Crypto Market Heatmap",
         "url": "https://coinmarketcap.com/crypto-heatmap/",
         "selector": "svg#d3svg",
-        "wait_for": "svg#d3svg",
+        "wait_for": "svg#d3svg g.gwrap text",
         "telegram_title": "🗺️ Crypto Market Heatmap",
         "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
         "enabled": True,
         "priority": 8,
-        "extra_wait": 10,
+        "extra_wait": 20,
         "viewport_width": 1920,
         "viewport_height": 1080,
         "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
