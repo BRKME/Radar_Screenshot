@@ -192,6 +192,75 @@ SCREENSHOT_SOURCES = {
         "viewport_height": 1080,
         "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
         "crop": {"top": 100, "right": 0, "bottom": 100, "left": 0}
+    },
+    
+    # HEATMAP VARIANT 5: CoinGlass
+    "heatmap_v5_coinglass": {
+        "name": "Crypto Market Heatmap v5 (CoinGlass)",
+        "url": "https://www.coinglass.com/pro/Heatmap",
+        "selector": "body",
+        "wait_for": "[class*='heatmap'], canvas, svg",
+        "telegram_title": "🗺️ Crypto Market Heatmap v5",
+        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
+        "enabled": True,
+        "priority": 8,
+        "extra_wait": 15,
+        "viewport_width": 1920,
+        "viewport_height": 1080,
+        "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
+        "crop": {"top": 150, "right": 0, "bottom": 150, "left": 0}
+    },
+    
+    # HEATMAP VARIANT 6: CMC with Stealth (needs code modification)
+    "heatmap_v6_stealth": {
+        "name": "Crypto Market Heatmap v6 (Stealth Mode)",
+        "url": "https://coinmarketcap.com/crypto-heatmap/",
+        "selector": "body",
+        "wait_for": "svg#d3svg",
+        "telegram_title": "🗺️ Crypto Market Heatmap v6",
+        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
+        "enabled": True,
+        "priority": 8,
+        "extra_wait": 20,
+        "viewport_width": 1920,
+        "viewport_height": 1080,
+        "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
+        "crop": {"top": 150, "right": 150, "bottom": 200, "left": 150},
+        "use_stealth": True  # Special flag
+    },
+    
+    # HEATMAP VARIANT 7: CMC with Network Idle
+    "heatmap_v7_networkidle": {
+        "name": "Crypto Market Heatmap v7 (Network Idle)",
+        "url": "https://coinmarketcap.com/crypto-heatmap/",
+        "selector": "body",
+        "wait_for": "networkidle",
+        "telegram_title": "🗺️ Crypto Market Heatmap v7",
+        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
+        "enabled": True,
+        "priority": 8,
+        "extra_wait": 15,
+        "viewport_width": 1920,
+        "viewport_height": 1080,
+        "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
+        "crop": {"top": 150, "right": 100, "bottom": 200, "left": 100}
+    },
+    
+    # HEATMAP VARIANT 8: Finviz Crypto Map
+    "heatmap_v8_finviz": {
+        "name": "Crypto Market Heatmap v8 (Finviz)",
+        "url": "https://finviz.com/crypto_performance.ashx",
+        "selector": "body",
+        "wait_for": "table, [class*='chart']",
+        "telegram_title": "🗺️ Crypto Market Heatmap v8",
+        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
+        "enabled": True,
+        "priority": 8,
+        "extra_wait": 10,
+        "viewport_width": 1920,
+        "viewport_height": 1080,
+        "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
+        "crop": {"top": 100, "right": 0, "bottom": 100, "left": 0}
     }
 }
 
@@ -240,25 +309,45 @@ SCREENSHOT_SOURCES = {
 # ===============================================================================
 
 POST_SCHEDULE = {
-    # HEATMAP TESTING - 4 VARIANTS
+    # HEATMAP TESTING - 8 VARIANTS
     "heatmap_test_v1": {
         "time_range_msk": (7.0, 8.0),
         "sources": ["heatmap_v1_fullpage"],
         "selection": "fixed"
     },
     "heatmap_test_v2": {
-        "time_range_msk": (10.0, 11.0),
+        "time_range_msk": (9.0, 10.0),
         "sources": ["heatmap_v2_small"],
         "selection": "fixed"
     },
     "heatmap_test_v3": {
-        "time_range_msk": (13.0, 14.0),
+        "time_range_msk": (11.0, 12.0),
         "sources": ["heatmap_v3_longwait"],
         "selection": "fixed"
     },
     "heatmap_test_v4": {
-        "time_range_msk": (19.0, 20.0),
+        "time_range_msk": (13.0, 14.0),
         "sources": ["heatmap_v4_tradingview"],
+        "selection": "fixed"
+    },
+    "heatmap_test_v5": {
+        "time_range_msk": (15.0, 16.0),
+        "sources": ["heatmap_v5_coinglass"],
+        "selection": "fixed"
+    },
+    "heatmap_test_v6": {
+        "time_range_msk": (17.0, 18.0),
+        "sources": ["heatmap_v6_stealth"],
+        "selection": "fixed"
+    },
+    "heatmap_test_v7": {
+        "time_range_msk": (19.0, 20.0),
+        "sources": ["heatmap_v7_networkidle"],
+        "selection": "fixed"
+    },
+    "heatmap_test_v8": {
+        "time_range_msk": (21.0, 22.0),
+        "sources": ["heatmap_v8_finviz"],
         "selection": "fixed"
     },
     
