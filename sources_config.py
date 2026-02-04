@@ -192,161 +192,33 @@ SCREENSHOT_SOURCES = {
         "viewport_height": 1080,
         "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
         "crop": {"top": 100, "right": 0, "bottom": 100, "left": 0}
-    },
-    
-    # HEATMAP VARIANT 5: CoinGlass
-    "heatmap_v5_coinglass": {
-        "name": "Crypto Market Heatmap v5 (CoinGlass)",
-        "url": "https://www.coinglass.com/pro/Heatmap",
-        "selector": "body",
-        "wait_for": "body",
-        "telegram_title": "🗺️ Crypto Market Heatmap v5",
-        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
-        "enabled": True,
-        "priority": 8,
-        "extra_wait": 20,
-        "viewport_width": 1920,
-        "viewport_height": 1080,
-        "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
-        "crop": {"top": 150, "right": 0, "bottom": 150, "left": 0}
-    },
-    
-    # HEATMAP VARIANT 6: CMC Extra Large Viewport
-    "heatmap_v6_xlarge": {
-        "name": "Crypto Market Heatmap v6 (XL Viewport)",
-        "url": "https://coinmarketcap.com/crypto-heatmap/",
-        "selector": "body",
-        "wait_for": "svg#d3svg",
-        "telegram_title": "🗺️ Crypto Market Heatmap v6",
-        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
-        "enabled": True,
-        "priority": 8,
-        "extra_wait": 25,
-        "viewport_width": 2560,
-        "viewport_height": 1440,
-        "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
-        "crop": {"top": 250, "right": 300, "bottom": 350, "left": 300}
-    },
-    
-    # HEATMAP VARIANT 7: Finviz Crypto
-    "heatmap_v7_finviz": {
-        "name": "Crypto Market Heatmap v7 (Finviz)",
-        "url": "https://finviz.com/crypto_performance.ashx",
-        "selector": "body",
-        "wait_for": "body",
-        "telegram_title": "🗺️ Crypto Market Heatmap v7",
-        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
-        "enabled": True,
-        "priority": 8,
-        "extra_wait": 15,
-        "viewport_width": 1920,
-        "viewport_height": 1080,
-        "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
-        "crop": {"top": 100, "right": 0, "bottom": 100, "left": 0}
-    },
-    
-    # HEATMAP VARIANT 8: CMC Minimal Crop
-    "heatmap_v8_minimal": {
-        "name": "Crypto Market Heatmap v8 (Minimal Crop)",
-        "url": "https://coinmarketcap.com/crypto-heatmap/",
-        "selector": "#d3chart",
-        "wait_for": "svg#d3svg",
-        "telegram_title": "🗺️ Crypto Market Heatmap v8",
-        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
-        "enabled": True,
-        "priority": 8,
-        "extra_wait": 30,
-        "viewport_width": 1600,
-        "viewport_height": 1000,
-        "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
-        "crop": {"top": 20, "right": 20, "bottom": 20, "left": 20}
     }
 }
 
 # ===============================================================================
-# РАСПИСАНИЕ - АВТОМАТИЧЕСКАЯ РОТАЦИЯ
-# ===============================================================================
-# Источники публикуются автоматически по кругу каждые 30 минут.
-# Логика: 48 слотов в сутки (24 часа × 2), источники берутся по порядку из
-# SCREENSHOT_SOURCES (только enabled=True).
-#
-# При 7 активных источниках (derivatives отключен):
-# - 00:00 → fear_greed
-# - 00:30 → btc_dominance  
-# - 01:00 → btc_etf
-# - 01:30 → altcoin_season
-# - 02:00 → eth_etf
-# - 02:30 → top_gainers
-# - 03:00 → token_unlocks
-# - 03:30 → fear_greed (снова по кругу)
-# - ...и так далее
-#
-# ⚠️ ВАЖНО: Порядок источников в SCREENSHOT_SOURCES определяет порядок публикации!
-# ===============================================================================
-
-# ===============================================================================
 # РАСПИСАНИЕ - ГИБКАЯ ЛОГИКА ПО ВРЕМЕНИ MSK
-# ===============================================================================
-# Новая схема публикаций по времени MSK
-#
-# 16:30–17:00 MSK → Daily Market Sentiment
-#   Источники: fear_greed, altcoin_season, btc_dominance (ротация случайная)
-#
-# 18:30–19:00 MSK → Token Unlocks Watch
-#   Источник: token_unlocks
-#
-# 20:00–21:00 MSK → ETF Flows Desk
-#   Источники: btc_etf, eth_etf (ротация случайная)
-#
-# 22:00 MSK → Top Gainers Radar
-#   Источник: top_gainers
-#
-# 01:00 MSK (опционально) → ETF Anomaly / Market Alert
-#   Источники: btc_etf, eth_etf (только если поток >$100M)
-#   
-# MSK = UTC+3
 # ===============================================================================
 
 POST_SCHEDULE = {
-    # HEATMAP TESTING - 8 SIMPLIFIED VARIANTS
+    # HEATMAP TESTING - 4 VARIANTS
     "heatmap_test_v1": {
         "time_range_msk": (7.0, 8.0),
         "sources": ["heatmap_v1_fullpage"],
         "selection": "fixed"
     },
     "heatmap_test_v2": {
-        "time_range_msk": (9.0, 10.0),
+        "time_range_msk": (10.0, 11.0),
         "sources": ["heatmap_v2_small"],
         "selection": "fixed"
     },
     "heatmap_test_v3": {
-        "time_range_msk": (11.0, 12.0),
+        "time_range_msk": (13.0, 14.0),
         "sources": ["heatmap_v3_longwait"],
         "selection": "fixed"
     },
     "heatmap_test_v4": {
-        "time_range_msk": (13.0, 14.0),
-        "sources": ["heatmap_v4_tradingview"],
-        "selection": "fixed"
-    },
-    "heatmap_test_v5": {
-        "time_range_msk": (15.0, 16.0),
-        "sources": ["heatmap_v5_coinglass"],
-        "selection": "fixed"
-    },
-    "heatmap_test_v6": {
-        "time_range_msk": (17.0, 18.0),
-        "sources": ["heatmap_v6_xlarge"],
-        "selection": "fixed"
-    },
-    "heatmap_test_v7": {
         "time_range_msk": (19.0, 20.0),
-        "sources": ["heatmap_v7_finviz"],
-        "selection": "fixed"
-    },
-    "heatmap_test_v8": {
-        "time_range_msk": (21.0, 22.0),
-        "sources": ["heatmap_v8_minimal"],
+        "sources": ["heatmap_v4_tradingview"],
         "selection": "fixed"
     },
     
@@ -375,14 +247,14 @@ POST_SCHEDULE = {
 
 # Настройки для обработки изображений
 IMAGE_SETTINGS = {
-    "telegram_max_width": 1200,  # ✅ Увеличено до 1200 для полной ширины в Telegram
-    "telegram_min_width": 1000,  # ✅ Минимальная ширина (добавляем padding если меньше)
+    "telegram_max_width": 1200,
+    "telegram_min_width": 1000,
     "telegram_max_height": 1280,
     "quality": 85,
     "format": "JPEG",
     "crop_padding": 20,
-    "add_padding_if_narrow": True,  # ✅ Добавлять padding если изображение узкое
-    "padding_color": (255, 255, 255)  # Белый цвет padding (или (240, 242, 245) для светло-серого)
+    "add_padding_if_narrow": True,
+    "padding_color": (255, 255, 255)
 }
 
 # Настройки скриншотов
