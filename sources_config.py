@@ -201,45 +201,47 @@ SCREENSHOT_SOURCES = {
 
 POST_SCHEDULE = {
     # HEATMAP TESTING - 4 VARIANTS
+    # ⚠️ FIX: GitHub Actions cron неточный (может запускаться ±10 минут)
+    # Добавлен буфер 10 минут перед каждым слотом
     "heatmap_test_v1": {
-        "time_range_msk": (7.0, 8.0),
+        "time_range_msk": (6.85, 8.0),  # 06:51-08:00 (было 07:00-08:00)
         "sources": ["heatmap_v1_fullpage"],
         "selection": "fixed"
     },
     "heatmap_test_v2": {
-        "time_range_msk": (10.0, 11.0),
+        "time_range_msk": (9.85, 11.0),  # 09:51-11:00 (было 10:00-11:00)
         "sources": ["heatmap_v2_small"],
         "selection": "fixed"
     },
     "heatmap_test_v3": {
-        "time_range_msk": (13.0, 14.0),
+        "time_range_msk": (12.85, 14.0),  # 12:51-14:00 (было 13:00-14:00)
         "sources": ["heatmap_v3_longwait"],
         "selection": "fixed"
     },
     "heatmap_test_v4": {
-        "time_range_msk": (19.0, 20.0),
+        "time_range_msk": (18.85, 20.0),  # 18:51-20:00 (было 19:00-20:00)
         "sources": ["heatmap_v4_tradingview"],
         "selection": "fixed"
     },
     
     # REGULAR SCHEDULE
     "daily_market_sentiment": {
-        "time_range_msk": (16.5, 17.0),
+        "time_range_msk": (16.35, 17.0),  # 16:21-17:00 (было 16:30-17:00)
         "sources": ["fear_greed", "altcoin_season", "btc_dominance"],
         "selection": "random"
     },
     "btc_etf_flows": {
-        "time_range_msk": (20.0, 20.5),
+        "time_range_msk": (19.85, 20.5),  # 19:51-20:30 (было 20:00-20:30)
         "sources": ["btc_etf"],
         "selection": "fixed"
     },
     "eth_etf_flows": {
-        "time_range_msk": (20.5, 21.0),
+        "time_range_msk": (20.35, 21.0),  # 20:21-21:00 (было 20:30-21:00)
         "sources": ["eth_etf"],
         "selection": "fixed"
     },
     "top_gainers_radar": {
-        "time_range_msk": (22.0, 22.5),
+        "time_range_msk": (21.85, 22.5),  # 21:51-22:30 (было 22:00-22:30)
         "sources": ["top_gainers"],
         "selection": "fixed"
     }
