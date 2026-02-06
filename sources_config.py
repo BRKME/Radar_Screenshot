@@ -8,17 +8,17 @@ SCREENSHOT_SOURCES = {
     "fear_greed": {
         "name": "Crypto Fear & Greed Index",
         "url": "https://coinmarketcap.com/charts/fear-and-greed-index/",
-        "selector": "div.sc-65e7f566-0.kijrGb",  # ✅ Упрощенный селектор - основной контейнер
-        "wait_for": "div.sc-65e7f566-0.kijrGb",
+        "selector": "div[data-role='progressbar-wrapper']",  # ✅ ОБНОВЛЕН: Стабильный data-атрибут
+        "wait_for": "svg",  # ✅ ОБНОВЛЕН: Ждем SVG внутри
         "telegram_title": "📊 Fear & Greed Index",
         "telegram_hashtags": "#FearAndGreed #CryptoSentiment #Bitcoin",
         "enabled": True,
         "priority": 1,
-        "skip_width_padding": True,  # ✅ БЕЗ огромных полей
-        "element_padding": {"top": 40, "right": 30, "bottom": 40, "left": 30},  # Небольшие отступы
-        "scale": 1.0,  # ✅ Нормальный размер
-        "hide_elements": "p, [class*='description'], [class*='Description'], [data-role='description']",  # ✅ Скрыть текстовые описания
-        "crop": {"top": 50, "right": 30, "bottom": 50, "left": 0}  # ✅ Обрезка сверху, справа и снизу
+        "skip_width_padding": True,
+        "element_padding": {"top": 60, "right": 50, "bottom": 60, "left": 50},  # ✅ УВЕЛИЧЕН padding
+        "scale": 1.0,
+        "hide_elements": "nav, footer, [class*='banner'], [class*='ad']",  # ✅ УПРОЩЕН
+        "crop": {"top": 0, "right": 0, "bottom": 0, "left": 0}  # ✅ БЕЗ crop (padding достаточно)
     },
     
     "altcoin_season": {
@@ -39,16 +39,18 @@ SCREENSHOT_SOURCES = {
     "btc_dominance": {
         "name": "Bitcoin Dominance",
         "url": "https://coinmarketcap.com/charts/bitcoin-dominance/",
-        "selector": ".qAEmk",
-        "wait_for": "h2",
+        "selector": "xpath=//h2[contains(text(), 'Bitcoin Dominance')]/parent::div",  # ✅ ОБНОВЛЕН: Стабильный XPath
+        "wait_for": "h2:has-text('Bitcoin Dominance')",  # ✅ ОБНОВЛЕН: Ждем заголовок
         "telegram_title": "₿ Bitcoin Dominance",
         "telegram_hashtags": "#Bitcoin #BTC #Dominance",
         "enabled": True,
         "priority": 3,
         "viewport_width": 1280,
         "viewport_height": 800,
-        "hide_elements": "aside, nav, header, footer, [class*='sidebar'], [class*='banner'], [class*='ad'], iframe, .description, h1:not(:first-of-type), table, svg[class*='chart']",
-        "crop": {"top": 0, "right": 0, "bottom": 20, "left": 0}
+        "hide_elements": "aside, nav, header, footer, [class*='sidebar'], [class*='banner'], [class*='ad'], iframe",
+        "element_padding": {"top": 40, "right": 40, "bottom": 40, "left": 40},  # ✅ ДОБАВЛЕН padding
+        "crop": {"top": 0, "right": 0, "bottom": 0, "left": 0},  # ✅ БЕЗ crop
+        "skip_width_padding": True
     },
     
     "eth_etf": {
@@ -109,6 +111,22 @@ SCREENSHOT_SOURCES = {
         "crop": {"top": 20, "right": 20, "bottom": 20, "left": 20}  # ✅ Обрезка со всех сторон
     },
     
+    "crypto_liquidations": {
+        "name": "Crypto Liquidations",
+        "url": "https://coinmarketcap.com/charts/liquidations/",
+        "selector": "div[data-role='ic-content']",  # ✅ Стабильный data-атрибут
+        "wait_for": "div[data-role='ic-content']",
+        "telegram_title": "💥 Crypto Liquidations",
+        "telegram_hashtags": "#Liquidations #Crypto #Derivatives",
+        "enabled": True,
+        "priority": 8,
+        "skip_width_padding": True,
+        "element_padding": {"top": 50, "right": 40, "bottom": 50, "left": 40},
+        "scale": 1.0,
+        "hide_elements": "nav, footer, [class*='banner'], [class*='ad']",
+        "crop": {"top": 0, "right": 0, "bottom": 0, "left": 0}
+    },
+    
     "token_unlocks": {
         "name": "Token Unlocks Next 7 Days",
         "url": "https://dropstab.com/vesting",
@@ -127,31 +145,12 @@ SCREENSHOT_SOURCES = {
     },
     
     # ========================================================================
-    # HEATMAP SOURCES - НОВЫЕ (COIN360, BLOCKCHAIN.COM, NDAX)
+    # HEATMAP SOURCES - BLOCKCHAIN.COM (ПОБЕДИТЕЛЬ!)
     # ========================================================================
     
-    # HEATMAP V1: Coin360 (Canvas-based с текстом)
-    "heatmap_v1_coin360": {
-        "name": "Crypto Market Heatmap - Coin360",
-        "url": "https://coin360.com/",
-        "selector": "div#MAP_ID",
-        "wait_for": "canvas",
-        "telegram_title": "🗺️ Crypto Market Heatmap",
-        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
-        "enabled": True,
-        "priority": 8,
-        "extra_wait": 10,
-        "viewport_width": 1920,
-        "viewport_height": 1080,
-        "close_modal": True,  # Закрыть модальное окно если появится
-        "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie'], button, [class*='button']",
-        "crop": {"top": 100, "right": 50, "bottom": 100, "left": 50},
-        "skip_width_padding": True
-    },
-    
-    # HEATMAP V2: Blockchain.com (Canvas-based)
-    "heatmap_v2_blockchain": {
-        "name": "Crypto Market Heatmap - Blockchain.com",
+    # HEATMAP: Blockchain.com (Canvas-based) - ЕДИНСТВЕННЫЙ АКТИВНЫЙ
+    "heatmap_blockchain": {
+        "name": "Crypto Market Heatmap",
         "url": "https://www.blockchain.com/explorer/prices/heatmap",
         "selector": "canvas#heatmapCanvas",
         "wait_for": "canvas#heatmapCanvas",
@@ -168,22 +167,19 @@ SCREENSHOT_SOURCES = {
         "skip_width_padding": True
     },
     
-    # HEATMAP V3: NDAX (Fallback - стандартные селекторы)
+    # ОТКЛЮЧЕННЫЕ (для истории)
+    "heatmap_v1_coin360": {
+        "name": "Crypto Market Heatmap - Coin360",
+        "url": "https://coin360.com/",
+        "enabled": False,  # ❌ ОТКЛЮЧЕН
+        "priority": 8
+    },
+    
     "heatmap_v3_ndax": {
         "name": "Crypto Market Heatmap - NDAX",
         "url": "https://ndax.io/en/markets/heatmap",
-        "selector": "body",
-        "wait_for": "canvas",
-        "telegram_title": "🗺️ Crypto Market Heatmap",
-        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
-        "enabled": True,
-        "priority": 8,
-        "extra_wait": 15,
-        "viewport_width": 1920,
-        "viewport_height": 1080,
-        "hide_elements": "header, nav, footer, aside, [class*='navbar'], [class*='sidebar'], [class*='banner'], [class*='ad'], [class*='cookie']",
-        "crop": {"top": 150, "right": 100, "bottom": 150, "left": 100},
-        "skip_width_padding": True
+        "enabled": False,  # ❌ ОТКЛЮЧЕН
+        "priority": 8
     }
 }
 
@@ -192,43 +188,43 @@ SCREENSHOT_SOURCES = {
 # ===============================================================================
 
 POST_SCHEDULE = {
-    # HEATMAP TESTING - 3 НОВЫХ ИСТОЧНИКА
+    # HEATMAP - 2 РАЗА В ДЕНЬ (BLOCKCHAIN.COM)
     # ⚠️ FIX: GitHub Actions cron неточный (может запускаться ±10 минут)
     # Добавлен буфер 10 минут перед каждым слотом
-    "heatmap_test_v1": {
-        "time_range_msk": (6.85, 8.0),  # 06:51-08:00 (Coin360)
-        "sources": ["heatmap_v1_coin360"],
+    "morning_heatmap": {
+        "time_range_msk": (6.85, 8.0),  # 06:51-08:00 (07:00 MSK утром)
+        "sources": ["heatmap_blockchain"],
         "selection": "fixed"
     },
-    "heatmap_test_v2": {
-        "time_range_msk": (9.85, 11.0),  # 09:51-11:00 (Blockchain.com)
-        "sources": ["heatmap_v2_blockchain"],
-        "selection": "fixed"
-    },
-    "heatmap_test_v3": {
-        "time_range_msk": (12.85, 14.0),  # 12:51-14:00 (NDAX)
-        "sources": ["heatmap_v3_ndax"],
+    "evening_heatmap": {
+        "time_range_msk": (18.85, 19.85),  # 18:51-19:51 (19:00 MSK) ✅ FIX: было 20.00, убрано пересечение
+        "sources": ["heatmap_blockchain"],
         "selection": "fixed"
     },
     
     # REGULAR SCHEDULE
     "daily_market_sentiment": {
-        "time_range_msk": (16.35, 17.0),  # 16:21-17:00 (было 16:30-17:00)
+        "time_range_msk": (16.35, 17.0),  # 16:21-17:00 (16:30 MSK)
         "sources": ["fear_greed", "altcoin_season", "btc_dominance"],
         "selection": "random"
     },
+    "crypto_liquidations_daily": {
+        "time_range_msk": (17.85, 18.85),  # 17:51-18:51 (18:00 MSK) ✅ FIX: было 19.00, убрано пересечение
+        "sources": ["crypto_liquidations"],
+        "selection": "fixed"
+    },
     "btc_etf_flows": {
-        "time_range_msk": (19.85, 20.5),  # 19:51-20:30 (было 20:00-20:30)
+        "time_range_msk": (19.85, 20.35),  # 19:51-20:21 ✅ FIX: убрано пересечение с ETH ETF
         "sources": ["btc_etf"],
         "selection": "fixed"
     },
     "eth_etf_flows": {
-        "time_range_msk": (20.35, 21.0),  # 20:21-21:00 (было 20:30-21:00)
+        "time_range_msk": (20.35, 21.0),  # 20:21-21:00 (20:30 MSK)
         "sources": ["eth_etf"],
         "selection": "fixed"
     },
     "top_gainers_radar": {
-        "time_range_msk": (21.85, 22.5),  # 21:51-22:30 (было 22:00-22:30)
+        "time_range_msk": (21.85, 22.5),  # 21:51-22:30 (22:00 MSK)
         "sources": ["top_gainers"],
         "selection": "fixed"
     }
