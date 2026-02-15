@@ -1,7 +1,7 @@
 {
   "last_published": {
     "token_unlocks": "2026-01-21T15:52:26.417609+00:00",
-    "altcoin_season": "2026-01-26T13:48:02.920680+00:00",
+    "altcoin_season": "2026-02-15T13:41:50.506576+00:00",
     "derivatives": "2025-12-10T12:58:24.353929+00:00",
     "eth_etf": "2026-02-14T17:22:01.045546+00:00",
     "top_gainers": "2026-02-14T19:00:31.527743+00:00",
@@ -20,10 +20,10 @@
     "heatmap_blockchain": "2026-02-15T04:18:19.408824+00:00"
   },
   "last_publication": {
-    "source": "heatmap_blockchain",
-    "name": "Crypto Market Heatmap",
-    "published_at": "2026-02-15T04:18:19.408838+00:00",
-    "hour_utc": 4,
+    "source": "altcoin_season",
+    "name": "Altcoin Season Index",
+    "published_at": "2026-02-15T13:41:50.506591+00:00",
+    "hour_utc": 13,
     "telegram": true,
     "twitter": false
   }
