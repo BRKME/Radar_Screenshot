@@ -1,9 +1,10 @@
 """
 Конфигурация источников для скриншотов
-Version: 1.3 - Automatic rotation every 30 minutes (no more SCHEDULE dict)
+Version: 1.4.0 - Short hashtags (max 2, max 10 chars)
 """
 
 # Конфигурация источников для скриншотов
+# v1.4.0: Короткие хэштеги (max 2, max 10 символов)
 SCREENSHOT_SOURCES = {
     "fear_greed": {
         "name": "Crypto Fear & Greed Index",
@@ -11,7 +12,7 @@ SCREENSHOT_SOURCES = {
         "selector": "div[data-role='progressbar-wrapper']",  # ✅ ОБНОВЛЕН: Стабильный data-атрибут
         "wait_for": "svg",  # ✅ ОБНОВЛЕН: Ждем SVG внутри
         "telegram_title": "📊 Fear & Greed Index",
-        "telegram_hashtags": "#FearAndGreed #CryptoSentiment #Bitcoin",
+        "telegram_hashtags": "#Bitcoin #Sentiment",
         "enabled": True,
         "priority": 1,
         "skip_width_padding": True,
@@ -27,7 +28,7 @@ SCREENSHOT_SOURCES = {
         "selector": "[data-role='main-wrapper']",
         "wait_for": "[data-role='main-wrapper']",
         "telegram_title": "🌈 Altcoin Season Index",
-        "telegram_hashtags": "#AltcoinSeason #Altcoins #CryptoMarket",
+        "telegram_hashtags": "#Altcoins #Bitcoin",
         "enabled": True,
         "priority": 2,
         "viewport_width": 1280,
@@ -42,7 +43,7 @@ SCREENSHOT_SOURCES = {
         "selector": "xpath=//h2[contains(text(), 'Bitcoin Dominance')]/parent::div",  # ✅ ОБНОВЛЕН: Стабильный XPath
         "wait_for": "h2:has-text('Bitcoin Dominance')",  # ✅ ОБНОВЛЕН: Ждем заголовок
         "telegram_title": "₿ Bitcoin Dominance",
-        "telegram_hashtags": "#Bitcoin #BTC #Dominance",
+        "telegram_hashtags": "#Bitcoin #Dominance",
         "enabled": True,
         "priority": 3,
         "viewport_width": 1280,
@@ -59,7 +60,7 @@ SCREENSHOT_SOURCES = {
         "selector": "[data-role='content-wrapper']",
         "wait_for": "[data-role='content-wrapper']",
         "telegram_title": "💎 Ethereum ETF Tracker",
-        "telegram_hashtags": "#Ethereum #ETF #ETH",
+        "telegram_hashtags": "#Ethereum #ETF",
         "enabled": True,
         "priority": 4,
         "skip_width_padding": True,
@@ -75,7 +76,7 @@ SCREENSHOT_SOURCES = {
         "selector": "[data-role='content-wrapper']",
         "wait_for": "[data-role='content-wrapper']",
         "telegram_title": "₿ Bitcoin ETF Tracker",
-        "telegram_hashtags": "#Bitcoin #ETF #BTC",
+        "telegram_hashtags": "#Bitcoin #ETF",
         "enabled": True,
         "priority": 5,
         "skip_width_padding": True,
@@ -91,7 +92,7 @@ SCREENSHOT_SOURCES = {
         "selector": None,
         "wait_for": "table",
         "telegram_title": "📈 Crypto Derivatives Market",
-        "telegram_hashtags": "#Derivatives #Futures #Trading",
+        "telegram_hashtags": "#Crypto #Trading",
         "enabled": False,  # ❌ Отключен: CMC anti-bot защита
         "priority": 6
     },
@@ -102,7 +103,7 @@ SCREENSHOT_SOURCES = {
         "selector": "#__next > div.z-app.relative > div > div.lg\\:ml-auto.w-full.flex.flex-col.lg\\:w-\\[calc\\(100\\%-72px\\)\\].xl\\:w-\\[calc\\(100\\%-256px\\)\\] > main > div > div.relative.z-0.w-full.styles_carousel__lIy83.mb-4.lg\\:mb-6 > div > div > div:nth-child(1) > div > section > span",
         "wait_for": "section",
         "telegram_title": "🚀 Top Gainers Today",
-        "telegram_hashtags": "#TopGainers #Crypto #Movers",
+        "telegram_hashtags": "#Crypto #Gainers",
         "enabled": True,
         "priority": 7,
         "skip_width_padding": True,  # ✅ НЕ добавлять белый padding по бокам
@@ -117,7 +118,7 @@ SCREENSHOT_SOURCES = {
         "selector": "div[data-role='ic-content']",  # ✅ Стабильный data-атрибут
         "wait_for": "div[data-role='ic-content']",
         "telegram_title": "💥 Crypto Liquidations",
-        "telegram_hashtags": "#Liquidations #Crypto #Derivatives",
+        "telegram_hashtags": "#Bitcoin #Trading",
         "enabled": True,
         "priority": 8,
         "skip_width_padding": True,
@@ -133,7 +134,7 @@ SCREENSHOT_SOURCES = {
         "selector": "body",
         "wait_for": "table tbody tr",
         "telegram_title": "🔓 Token Unlocks Next 7 Days",
-        "telegram_hashtags": "#TokenUnlocks #Vesting #Crypto",
+        "telegram_hashtags": "#Crypto #Vesting",
         "enabled": False,
         "priority": 8,
         "extra_wait": 20,
@@ -155,7 +156,7 @@ SCREENSHOT_SOURCES = {
         "selector": "canvas#heatmapCanvas",
         "wait_for": "canvas#heatmapCanvas",
         "telegram_title": "🗺️ Crypto Market Heatmap",
-        "telegram_hashtags": "#Heatmap #MarketBreadth #Crypto",
+        "telegram_hashtags": "#Crypto #Heatmap",
         "enabled": True,
         "priority": 8,
         "extra_wait": 10,

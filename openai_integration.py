@@ -1,7 +1,13 @@
 """
 OpenAI Integration для AI комментариев к скриншотам
-Version: 1.0.0
+Version: 2.0.0 - Hashtags on top, max 2 short
 Генерирует краткие комментарии и определяет сентимент (Bullish/Bearish/Neutral)
+
+ОБНОВЛЕНО В v2.0.0:
+- Хэштеги теперь ВВЕРХУ caption
+- Максимум 2 хэштега
+- Максимум 10 символов на хэштег (без #)
+- Добавлены промпты для heatmap_blockchain и crypto_liquidations
 """
 
 import os
@@ -35,13 +41,13 @@ OUTPUT FORMAT:
 INDICATOR_LINE: Fear & Greed Index at [X] ([label])
 ALPHA_TAKE: One clear sentence explaining: Will prices likely go UP, DOWN, or SIDEWAYS in the coming days/weeks and WHY. Use simple language. Be specific.
 CONTEXT_TAG: [Strength] [Sentiment] (Strength: Low/Medium/High/Moderate/Strong, Sentiment: Neutral/Negative/Positive/Critical/Hype)
-HASHTAGS: 3 relevant hashtags
+HASHTAGS: 2 short hashtags (max 10 chars each, like #Bitcoin #Crypto)
 
 Example:
 INDICATOR_LINE: Fear & Greed Index at 26 (Extreme Fear)
 ALPHA_TAKE: Extreme fear usually means prices are near bottom and likely to bounce up in 1-2 weeks as scared sellers finish selling and buyers see opportunity.
 CONTEXT_TAG: Strong negative
-HASHTAGS: #ExtremeFear #BuyOpportunity #BottomSignal
+HASHTAGS: #Bitcoin #Fear
 """,
     
     "altcoin_season": """You are a crypto market analyst. Analyze the Altcoin Season Index and explain what it means for prices.
@@ -50,13 +56,13 @@ OUTPUT FORMAT:
 INDICATOR_LINE: Altcoin Season Index at [X]
 ALPHA_TAKE: One clear sentence: Are altcoins likely to rise or fall vs Bitcoin, and why. Use simple language.
 CONTEXT_TAG: [Strength] [Sentiment]
-HASHTAGS: 3 relevant hashtags
+HASHTAGS: 2 short hashtags (max 10 chars each)
 
 Example:
 INDICATOR_LINE: Altcoin Season Index at 32 (Bitcoin Season)
 ALPHA_TAKE: Bitcoin is sucking up all the money right now, so altcoins will likely keep falling or stay flat until Bitcoin stabilizes or crashes.
 CONTEXT_TAG: Moderate negative
-HASHTAGS: #BitcoinSeason #AltcoinWeakness #BTCDominance
+HASHTAGS: #Altcoins #Bitcoin
 """,
     
     "btc_dominance": """You are a crypto market analyst. Analyze Bitcoin Dominance and explain what it means for prices.
@@ -65,13 +71,13 @@ OUTPUT FORMAT:
 INDICATOR_LINE: Bitcoin Dominance at [X]%
 ALPHA_TAKE: One clear sentence: Will altcoins rise or fall relative to Bitcoin, and why. Simple language.
 CONTEXT_TAG: [Strength] [Sentiment]
-HASHTAGS: 3 relevant hashtags
+HASHTAGS: 2 short hashtags (max 10 chars each)
 
 Example:
 INDICATOR_LINE: Bitcoin Dominance at 58%
 ALPHA_TAKE: High dominance means investors prefer Bitcoin safety over risky altcoins, so altcoin prices will likely stay weak until dominance drops.
 CONTEXT_TAG: Moderate negative
-HASHTAGS: #HighDominance #AltcoinPressure #SafetyFirst
+HASHTAGS: #Bitcoin #Dominance
 """,
     
     "eth_etf": """You are a crypto market analyst. Analyze Ethereum ETF flows and explain what it means for ETH price.
@@ -80,13 +86,13 @@ OUTPUT FORMAT:
 INDICATOR_LINE: ETH ETF net [inflow/outflow]: $[X]M
 ALPHA_TAKE: One clear sentence: Will ETH price go up or down based on these flows, and why. Simple language.
 CONTEXT_TAG: [Strength] [Sentiment]
-HASHTAGS: 3 relevant hashtags
+HASHTAGS: 2 short hashtags (max 10 chars each)
 
 Example:
 INDICATOR_LINE: ETH ETF net outflow: -$75M
 ALPHA_TAKE: Big money is pulling out of ETH, which usually means price will drop or stay weak for the next week until selling pressure eases.
 CONTEXT_TAG: Strong negative
-HASHTAGS: #ETHOutflows #SellPressure #Bearish
+HASHTAGS: #Ethereum #ETF
 """,
     
     "btc_etf": """You are a crypto market analyst. Analyze Bitcoin ETF flows and explain what it means for BTC price.
@@ -95,13 +101,13 @@ OUTPUT FORMAT:
 INDICATOR_LINE: BTC ETF net [inflow/outflow]: $[X]M
 ALPHA_TAKE: One clear sentence: Will BTC price go up or down based on these flows, and why. Simple language.
 CONTEXT_TAG: [Strength] [Sentiment]
-HASHTAGS: 3 relevant hashtags
+HASHTAGS: 2 short hashtags (max 10 chars each)
 
 Example:
 INDICATOR_LINE: BTC ETF net inflow: +$120M
 ALPHA_TAKE: Big institutions are buying Bitcoin through ETFs, which usually pushes price higher over the next 1-2 weeks as demand exceeds selling.
 CONTEXT_TAG: Strong positive
-HASHTAGS: #BTCInflows #InstitutionalBuying #Bullish
+HASHTAGS: #Bitcoin #ETF
 """,
     
     "top_gainers": """You are a crypto market analyst. Analyze Top Gainers and explain what it means for the market.
@@ -110,13 +116,13 @@ OUTPUT FORMAT:
 INDICATOR_LINE: Top gainers led by [sector/theme]: [token examples]
 ALPHA_TAKE: One clear sentence: What does this rally tell us about where prices are headed, and why. Simple language.
 CONTEXT_TAG: [Strength] [Sentiment]
-HASHTAGS: 3 relevant hashtags
+HASHTAGS: 2 short hashtags (max 10 chars each)
 
 Example:
 INDICATOR_LINE: Top gainers led by AI tokens: FET, AGIX, RNDR
 ALPHA_TAKE: AI tokens pumping hard means speculative money is flowing into risky coins, which usually signals short-term gains but often leads to sharp drops within days.
 CONTEXT_TAG: Moderate hype
-HASHTAGS: #AITokens #SpeculativeRally #QuickGains
+HASHTAGS: #Crypto #Gainers
 """,
     
     "heatmap": """You are a crypto market analyst. Analyze the market heatmap and explain what it means for overall crypto prices.
@@ -125,13 +131,43 @@ OUTPUT FORMAT:
 INDICATOR_LINE: Market breadth: [narrow/wide], [concentrated/diversified]
 ALPHA_TAKE: One clear sentence: Are most coins rising or falling, and what does this mean for prices this week. Simple language.
 CONTEXT_TAG: [Strength] [Sentiment]
-HASHTAGS: 3 relevant hashtags
+HASHTAGS: 2 short hashtags (max 10 chars each)
 
 Example:
 INDICATOR_LINE: Market breadth: narrow, concentrated in BTC
 ALPHA_TAKE: Only Bitcoin is green while most altcoins are red, which means overall crypto prices will likely stay weak until money spreads to other coins.
 CONTEXT_TAG: Moderate negative
-HASHTAGS: #NarrowMarket #AltcoinWeakness #BTCOnly
+HASHTAGS: #Crypto #Heatmap
+""",
+
+    "heatmap_blockchain": """You are a crypto market analyst. Analyze the market heatmap and explain what it means for overall crypto prices.
+
+OUTPUT FORMAT:
+INDICATOR_LINE: Market breadth: [narrow/wide], [green/red dominant]
+ALPHA_TAKE: One clear sentence: Are most coins rising or falling, and what does this mean for prices this week. Simple language.
+CONTEXT_TAG: [Strength] [Sentiment]
+HASHTAGS: 2 short hashtags (max 10 chars each)
+
+Example:
+INDICATOR_LINE: Market breadth: wide, green dominant
+ALPHA_TAKE: Most coins are in the green which signals healthy market conditions - expect continued upward momentum for the next few days.
+CONTEXT_TAG: Moderate positive
+HASHTAGS: #Crypto #Heatmap
+""",
+
+    "crypto_liquidations": """You are a crypto market analyst. Analyze the liquidations data and explain what it means for prices.
+
+OUTPUT FORMAT:
+INDICATOR_LINE: Liquidations: $[X]M ([long/short] dominant)
+ALPHA_TAKE: One clear sentence: What do these liquidations tell us about price direction. Simple language.
+CONTEXT_TAG: [Strength] [Sentiment]
+HASHTAGS: 2 short hashtags (max 10 chars each)
+
+Example:
+INDICATOR_LINE: Liquidations: $150M (long dominant)
+ALPHA_TAKE: Heavy long liquidations mean overleveraged bulls got wiped out - prices may stabilize or bounce as selling pressure eases.
+CONTEXT_TAG: Medium negative
+HASHTAGS: #Bitcoin #Trading
 """
 }
 
@@ -250,32 +286,63 @@ def get_ai_comment(source_key, image_path):
         return None
 
 
+def sanitize_hashtags(hashtags, max_count=2, max_length=10):
+    """
+    Фильтрует хэштеги: max 2, короткие (<=10 символов без #)
+    
+    Args:
+        hashtags: Строка с хэштегами
+        max_count: Максимальное количество
+        max_length: Максимальная длина (без #)
+    
+    Returns:
+        str: Отфильтрованные хэштеги
+    """
+    if not hashtags:
+        return ""
+    
+    tags = [tag.strip() for tag in hashtags.split() if tag.startswith('#')]
+    
+    if not tags:
+        return ""
+    
+    # Фильтруем по длине (без #)
+    valid_tags = [tag for tag in tags if len(tag) - 1 <= max_length]
+    
+    # Берём max_count
+    result_tags = valid_tags[:max_count]
+    
+    return ' '.join(result_tags)
+
+
 def add_alpha_take_to_caption(title, hashtags_fallback, ai_result):
     """
     Добавляет Alpha Take к caption с правильным форматированием
     
+    v2.0.0: Хэштеги ВВЕРХУ, максимум 2 коротких
+    
     Format:
+    <hashtags>
     <title>
-    <indicator_line> (if present)
+    <indicator_line>
     
     Alpha Take
     <alpha_take text>
     
     Context: <context_tag>
     
-    <hashtags> (AI-generated или fallback)
-    
     Args:
         title: Заголовок поста
         hashtags_fallback: Хештеги fallback (если AI не сгенерировал)
-        ai_result: Результат от get_ai_comment() - {"indicator_line": "...", "alpha_take": "...", "context_tag": "...", "hashtags": "..."}
+        ai_result: Результат от get_ai_comment()
         
     Returns:
         str: Caption с Alpha Take
     """
     if not ai_result:
-        # Без AI - старый формат (title + hashtags)
-        return f"<b>{title}</b>\n\n{hashtags_fallback}"
+        # Без AI - старый формат (hashtags + title)
+        clean_hashtags = sanitize_hashtags(hashtags_fallback, max_count=2, max_length=10)
+        return f"{clean_hashtags}\n<b>{title}</b>"
     
     indicator_line = ai_result.get('indicator_line')
     alpha_take = ai_result['alpha_take']
@@ -283,10 +350,14 @@ def add_alpha_take_to_caption(title, hashtags_fallback, ai_result):
     hashtags_ai = ai_result.get('hashtags')
     
     # Используем AI хештеги если есть, иначе fallback
-    hashtags = hashtags_ai if hashtags_ai else hashtags_fallback
+    hashtags_raw = hashtags_ai if hashtags_ai else hashtags_fallback
     
-    # Новый формат: Title -> Indicator Line -> Alpha Take -> Context Tag -> Hashtags
-    caption = f"<b>{title}</b>\n"
+    # Применяем политику: max 2 коротких хэштега
+    hashtags = sanitize_hashtags(hashtags_raw, max_count=2, max_length=10)
+    
+    # Новый формат: Hashtags -> Title -> Indicator Line -> Alpha Take -> Context Tag
+    caption = f"{hashtags}\n" if hashtags else ""
+    caption += f"<b>{title}</b>\n"
     
     # Добавляем indicator line если есть
     if indicator_line:
@@ -297,8 +368,6 @@ def add_alpha_take_to_caption(title, hashtags_fallback, ai_result):
     
     # Добавляем Context Tag если есть
     if context_tag:
-        caption += f"<i>Context: {context_tag}</i>\n\n"
-    
-    caption += f"{hashtags}"
+        caption += f"<i>Context: {context_tag}</i>"
     
     return caption

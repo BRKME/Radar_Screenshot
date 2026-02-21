@@ -1,6 +1,6 @@
 """
 Парсер скриншотов для CoinMarketCap и других крипто-источников
-Version: 1.3.2 (Production Ready - QA Approved)
+Version: 2.0.0 (Guaranteed Heatmap + Hashtags on Top)
 ✅ Автоматические скриншоты по расписанию
 ✅ Обрезка под Telegram формат
 ✅ Публикация в Telegram и Twitter
@@ -10,6 +10,8 @@ Version: 1.3.2 (Production Ready - QA Approved)
 ✅ Правильный resource management (finally blocks)
 ✅ Complete cleanup (all temp files)
 ✅ Cookie handling для CoinMarketCap
+✅ Гарантированная публикация heatmap 2 раза в день (NEW v2.0.0)
+✅ Хэштеги вверху, max 2 коротких (NEW v2.0.0)
 """
 
 import asyncio
@@ -925,6 +927,8 @@ def get_source_by_schedule():
     """
     Определяет источник для публикации по расписанию MSK
     
+    v2.0.0: Гарантированная публикация heatmap 2 раза в день
+    
     Returns:
         str: Ключ источника или None если не время публикации
     """
@@ -939,6 +943,65 @@ def get_source_by_schedule():
     logger.info(f"\n⏰ Текущее время MSK: {hour_msk:02d}:{minute_msk:02d}")
     logger.info(f"⏰ Текущее время UTC: {now_utc.hour:02d}:{now_utc.minute:02d}")
     
+    # ════════════════════════════════════════════════════════════════════
+    # ГАРАНТИРОВАННАЯ ПУБЛИКАЦИЯ HEATMAP
+    # ════════════════════════════════════════════════════════════════════
+    # GitHub Actions cron может запускаться с задержкой до 30+ минут
+    # Поэтому расширяем окна и проверяем историю публикаций
+    
+    history = load_publication_history()
+    heatmap_last_published = history.get("last_published", {}).get("heatmap_blockchain")
+    
+    # Парсим дату последней публикации heatmap
+    heatmap_published_today_morning = False
+    heatmap_published_today_evening = False
+    
+    if heatmap_last_published:
+        try:
+            last_pub_dt = datetime.fromisoformat(heatmap_last_published.replace('Z', '+00:00'))
+            last_pub_msk = last_pub_dt + timedelta(hours=3)
+            
+            # Проверяем: та же дата?
+            if last_pub_msk.date() == now_msk.date():
+                # Утренняя публикация: 06:00-09:00 MSK
+                if 6 <= last_pub_msk.hour < 9:
+                    heatmap_published_today_morning = True
+                    logger.info(f"  ✓ Heatmap уже был утром: {last_pub_msk.strftime('%H:%M')} MSK")
+                # Вечерняя публикация: 18:00-21:00 MSK
+                elif 18 <= last_pub_msk.hour < 21:
+                    heatmap_published_today_evening = True
+                    logger.info(f"  ✓ Heatmap уже был вечером: {last_pub_msk.strftime('%H:%M')} MSK")
+        except Exception as e:
+            logger.warning(f"  ⚠️ Ошибка парсинга даты heatmap: {e}")
+    
+    # Расширенные окна для heatmap (с учётом задержек cron)
+    # Утро: 06:30-09:30 MSK (03:30-06:30 UTC)
+    HEATMAP_MORNING_START = 6.5   # 06:30 MSK
+    HEATMAP_MORNING_END = 9.5     # 09:30 MSK
+    
+    # Вечер: 18:30-21:30 MSK (15:30-18:30 UTC)
+    HEATMAP_EVENING_START = 18.5  # 18:30 MSK
+    HEATMAP_EVENING_END = 21.5    # 21:30 MSK
+    
+    # Проверяем: нужна ли принудительная публикация heatmap?
+    if HEATMAP_MORNING_START <= current_time_msk < HEATMAP_MORNING_END:
+        if not heatmap_published_today_morning:
+            logger.info(f"🗺️ ПРИНУДИТЕЛЬНАЯ ПУБЛИКАЦИЯ: утренний heatmap ещё не был!")
+            return "heatmap_blockchain"
+        else:
+            logger.info(f"  ℹ️ Утренний heatmap уже опубликован, пропускаем")
+    
+    if HEATMAP_EVENING_START <= current_time_msk < HEATMAP_EVENING_END:
+        if not heatmap_published_today_evening:
+            logger.info(f"🗺️ ПРИНУДИТЕЛЬНАЯ ПУБЛИКАЦИЯ: вечерний heatmap ещё не был!")
+            return "heatmap_blockchain"
+        else:
+            logger.info(f"  ℹ️ Вечерний heatmap уже опубликован, пропускаем")
+    
+    # ════════════════════════════════════════════════════════════════════
+    # СТАНДАРТНОЕ РАСПИСАНИЕ
+    # ════════════════════════════════════════════════════════════════════
+    
     # Проходим по всем слотам расписания
     for slot_name, slot_config in POST_SCHEDULE.items():
         time_range = slot_config['time_range_msk']
@@ -951,6 +1014,15 @@ def get_source_by_schedule():
             
             sources = slot_config['sources']
             selection_type = slot_config['selection']
+            
+            # Если это heatmap слот и он уже опубликован - пропускаем
+            if "heatmap" in slot_name:
+                if "morning" in slot_name and heatmap_published_today_morning:
+                    logger.info(f"  ⏭️ Heatmap уже опубликован утром, ищем другой слот")
+                    continue
+                if "evening" in slot_name and heatmap_published_today_evening:
+                    logger.info(f"  ⏭️ Heatmap уже опубликован вечером, ищем другой слот")
+                    continue
             
             # Случайный выбор из списка
             if selection_type == 'random':
@@ -968,7 +1040,6 @@ def get_source_by_schedule():
             elif selection_type == 'conditional':
                 logger.info(f"⚠️ Условный слот: {slot_name}")
                 logger.info(f"ℹ️ Пока пропускаем - аномалии проверяются вручную")
-                # TODO: Реализовать проверку аномалий ETF
                 return None
     
     logger.info(f"⏰ Не время для публикации (текущее время MSK: {hour_msk:02d}:{minute_msk:02d})")
