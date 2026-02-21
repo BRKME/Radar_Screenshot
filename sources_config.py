@@ -181,6 +181,28 @@ SCREENSHOT_SOURCES = {
         "url": "https://ndax.io/en/markets/heatmap",
         "enabled": False,  # ❌ ОТКЛЮЧЕН
         "priority": 8
+    },
+    
+    # ========================================================================
+    # TRENDING COINS - COINGECKO
+    # ========================================================================
+    
+    "trending_coins": {
+        "name": "Trending Coins",
+        "url": "https://www.coingecko.com/",
+        "selector": "xpath=//div[contains(text(), 'Trending Coins')]/ancestor::div[contains(@class, 'tw-ring-2')]",
+        "wait_for": "text=Trending Coins",
+        "telegram_title": "🔥 Trending Coins",
+        "telegram_hashtags": "#Crypto #Trending",
+        "enabled": True,
+        "priority": 9,
+        "extra_wait": 5,
+        "viewport_width": 1280,
+        "viewport_height": 900,
+        "element_padding": {"top": 20, "right": 20, "bottom": 20, "left": 20},
+        "hide_elements": "header, nav, footer, [class*='banner'], [class*='ad'], [class*='cookie'], [class*='popup']",
+        "crop": {"top": 0, "right": 0, "bottom": 0, "left": 0},
+        "skip_width_padding": True
     }
 }
 
@@ -227,6 +249,13 @@ POST_SCHEDULE = {
     "top_gainers_radar": {
         "time_range_msk": (21.85, 22.5),  # 21:51-22:30 (22:00 MSK)
         "sources": ["top_gainers"],
+        "selection": "fixed"
+    },
+    
+    # TRENDING COINS - COINGECKO (NEW!)
+    "trending_coins_daily": {
+        "time_range_msk": (11.85, 12.5),  # 11:51-12:30 (12:00 MSK)
+        "sources": ["trending_coins"],
         "selection": "fixed"
     }
 }

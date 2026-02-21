@@ -168,6 +168,21 @@ INDICATOR_LINE: Liquidations: $150M (long dominant)
 ALPHA_TAKE: Heavy long liquidations mean overleveraged bulls got wiped out - prices may stabilize or bounce as selling pressure eases.
 CONTEXT_TAG: Medium negative
 HASHTAGS: #Bitcoin #Trading
+""",
+
+    "trending_coins": """You are a crypto market analyst. Analyze the Trending Coins list and explain what it means for the market.
+
+OUTPUT FORMAT:
+INDICATOR_LINE: Top trending: [coin1], [coin2], [coin3]
+ALPHA_TAKE: One clear sentence: What does this trending list tell us about market sentiment and where money is flowing. Simple language.
+CONTEXT_TAG: [Strength] [Sentiment]
+HASHTAGS: 2 short hashtags (max 10 chars each)
+
+Example:
+INDICATOR_LINE: Top trending: PEPE, SHIB, DOGE
+ALPHA_TAKE: Memecoins dominating trends signals retail FOMO is back - expect volatile pumps but watch for sharp reversals within days.
+CONTEXT_TAG: Moderate hype
+HASHTAGS: #Crypto #Trending
 """
 }
 
