@@ -184,25 +184,28 @@ SCREENSHOT_SOURCES = {
     },
     
     # ========================================================================
-    # TRENDING COINS - COINGECKO
+    # TRENDING COINS - COINGECKO (Dedicated Page)
     # ========================================================================
     
     "trending_coins": {
         "name": "Trending Coins",
-        "url": "https://www.coingecko.com/",
-        "selector": "xpath=//div[contains(text(), 'Trending Coins')]/ancestor::div[contains(@class, 'tw-ring-2')]",
-        "wait_for": "text=Trending Coins",
+        # Используем специальную страницу trending вместо главной
+        "url": "https://www.coingecko.com/en/highlights/trending-crypto",
+        # Селектор: таблица с трендовыми монетами
+        "selector": "table",
+        "wait_for": "table",
         "telegram_title": "🔥 Trending Coins",
         "telegram_hashtags": "#Crypto #Trending",
         "enabled": True,
         "priority": 9,
         "extra_wait": 5,
-        "viewport_width": 1280,
-        "viewport_height": 900,
-        "element_padding": {"top": 20, "right": 20, "bottom": 20, "left": 20},
-        "hide_elements": "header, nav, footer, [class*='banner'], [class*='ad'], [class*='cookie'], [class*='popup']",
-        "crop": {"top": 0, "right": 0, "bottom": 0, "left": 0},
-        "skip_width_padding": True
+        "viewport_width": 1200,
+        "viewport_height": 800,
+        "element_padding": {"top": 30, "right": 20, "bottom": 30, "left": 20},
+        "hide_elements": "header, nav, footer, [class*='banner'], [class*='ad'], [class*='cookie'], [class*='popup'], [class*='modal'], aside",
+        "crop": {"top": 0, "right": 0, "bottom": 400, "left": 0},  # Обрезаем снизу лишнее
+        "skip_width_padding": True,
+        "stealth_mode": True
     }
 }
 
