@@ -4,7 +4,7 @@
     "altcoin_season": "2026-02-22T13:40:28.810738+00:00",
     "derivatives": "2025-12-10T12:58:24.353929+00:00",
     "eth_etf": "2026-02-23T17:36:47.947403+00:00",
-    "top_gainers": "2026-02-23T18:56:15.388294+00:00",
+    "top_gainers": "2026-02-24T18:55:12.327857+00:00",
     "fear_greed": "2026-02-14T13:41:10.381487+00:00",
     "btc_dominance": "2026-02-21T13:39:03.662050+00:00",
     "btc_etf": "2026-02-22T16:55:40.439000+00:00",
@@ -21,10 +21,10 @@
     "trending_coins": "2026-02-22T08:55:58.832455+00:00"
   },
   "last_publication": {
-    "source": "heatmap_blockchain",
-    "name": "Crypto Market Heatmap",
-    "published_at": "2026-02-24T15:30:45.229529+00:00",
-    "hour_utc": 15,
+    "source": "top_gainers",
+    "name": "Top Gainers",
+    "published_at": "2026-02-24T18:55:12.327873+00:00",
+    "hour_utc": 18,
     "telegram": true,
     "twitter": false
   }
