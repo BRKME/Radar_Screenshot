@@ -17,14 +17,14 @@
     "heatmap_v2_blockchain": "2026-02-06T07:28:36.191426+00:00",
     "heatmap_v3_ndax": "2026-02-06T10:06:37.318312+00:00",
     "crypto_liquidations": "2026-02-26T15:12:12.684380+00:00",
-    "heatmap_blockchain": "2026-02-27T03:54:39.685009+00:00",
+    "heatmap_blockchain": "2026-02-27T15:34:49.779841+00:00",
     "trending_coins": "2026-02-27T09:06:23.631672+00:00"
   },
   "last_publication": {
-    "source": "fear_greed",
-    "name": "Crypto Fear & Greed Index",
-    "published_at": "2026-02-27T13:56:29.326877+00:00",
-    "hour_utc": 13,
+    "source": "heatmap_blockchain",
+    "name": "Crypto Market Heatmap",
+    "published_at": "2026-02-27T15:34:49.779857+00:00",
+    "hour_utc": 15,
     "telegram": true,
     "twitter": false
   }
