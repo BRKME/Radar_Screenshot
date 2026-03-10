@@ -16,15 +16,15 @@
     "heatmap_v1_coin360": "2026-02-06T03:59:08.032931+00:00",
     "heatmap_v2_blockchain": "2026-02-06T07:28:36.191426+00:00",
     "heatmap_v3_ndax": "2026-02-06T10:06:37.318312+00:00",
-    "crypto_liquidations": "2026-03-09T15:30:07.269970+00:00",
+    "crypto_liquidations": "2026-03-10T15:15:30.625738+00:00",
     "heatmap_blockchain": "2026-03-10T03:40:13.138756+00:00",
     "trending_coins": "2026-03-10T08:52:28.494990+00:00"
   },
   "last_publication": {
-    "source": "trending_coins",
-    "name": "Trending Coins",
-    "published_at": "2026-03-10T08:52:28.495006+00:00",
-    "hour_utc": 8,
+    "source": "crypto_liquidations",
+    "name": "Crypto Liquidations",
+    "published_at": "2026-03-10T15:15:30.625760+00:00",
+    "hour_utc": 15,
     "telegram": true,
     "twitter": false
   }
