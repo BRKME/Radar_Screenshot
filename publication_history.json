@@ -6,7 +6,7 @@
     "eth_etf": "2026-03-13T17:31:07.041394+00:00",
     "top_gainers": "2026-03-13T19:07:17.211937+00:00",
     "fear_greed": "2026-03-02T13:57:35.079132+00:00",
-    "btc_dominance": "2026-03-08T13:36:56.865793+00:00",
+    "btc_dominance": "2026-03-14T13:42:04.781695+00:00",
     "btc_etf": "2026-03-08T16:51:38.390097+00:00",
     "heatmap": "2026-01-29T16:51:00.580087+00:00",
     "heatmap_v1_fullpage": "2026-01-30T04:23:29.668710+00:00",
@@ -21,10 +21,10 @@
     "trending_coins": "2026-03-14T09:01:06.225301+00:00"
   },
   "last_publication": {
-    "source": "trending_coins",
-    "name": "Trending Coins",
-    "published_at": "2026-03-14T09:01:06.225315+00:00",
-    "hour_utc": 9,
+    "source": "btc_dominance",
+    "name": "Bitcoin Dominance",
+    "published_at": "2026-03-14T13:42:04.781711+00:00",
+    "hour_utc": 13,
     "telegram": true,
     "twitter": false
   }
