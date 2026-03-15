@@ -16,15 +16,15 @@
     "heatmap_v1_coin360": "2026-02-06T03:59:08.032931+00:00",
     "heatmap_v2_blockchain": "2026-02-06T07:28:36.191426+00:00",
     "heatmap_v3_ndax": "2026-02-06T10:06:37.318312+00:00",
-    "crypto_liquidations": "2026-03-14T14:52:50.650336+00:00",
+    "crypto_liquidations": "2026-03-15T14:54:45.450180+00:00",
     "heatmap_blockchain": "2026-03-15T04:29:42.786172+00:00",
     "trending_coins": "2026-03-15T09:29:44.337245+00:00"
   },
   "last_publication": {
-    "source": "altcoin_season",
-    "name": "Altcoin Season Index",
-    "published_at": "2026-03-15T13:43:01.548675+00:00",
-    "hour_utc": 13,
+    "source": "crypto_liquidations",
+    "name": "Crypto Liquidations",
+    "published_at": "2026-03-15T14:54:45.450195+00:00",
+    "hour_utc": 14,
     "telegram": true,
     "twitter": false
   }
