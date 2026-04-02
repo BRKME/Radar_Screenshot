@@ -378,7 +378,7 @@ def add_alpha_take_to_caption(title, hashtags_fallback, ai_result):
     if indicator_line:
         caption += f"{indicator_line}\n"
     
-    caption += f"\n<b>◼ Alpha Take</b>\n"
+    caption += f"\n<b>📡 Alpha Take</b>\n"
     caption += f"{alpha_take}\n\n"
     
     # Добавляем Context Tag если есть
