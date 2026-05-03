@@ -17,14 +17,14 @@
     "heatmap_v2_blockchain": "2026-02-06T07:28:36.191426+00:00",
     "heatmap_v3_ndax": "2026-02-06T10:06:37.318312+00:00",
     "crypto_liquidations": "2026-05-02T15:10:52.723609+00:00",
-    "heatmap_blockchain": "2026-05-03T05:43:30.708095+00:00",
+    "heatmap_blockchain": "2026-05-03T15:41:59.955760+00:00",
     "trending_coins": "2026-05-03T09:18:54.703645+00:00"
   },
   "last_publication": {
-    "source": "altcoin_season",
-    "name": "Altcoin Season Index",
-    "published_at": "2026-05-03T13:53:55.074387+00:00",
-    "hour_utc": 13,
+    "source": "heatmap_blockchain",
+    "name": "Crypto Market Heatmap",
+    "published_at": "2026-05-03T15:41:59.955775+00:00",
+    "hour_utc": 15,
     "telegram": true,
     "twitter": false
   }
