@@ -17,14 +17,14 @@
     "heatmap_v2_blockchain": "2026-02-06T07:28:36.191426+00:00",
     "heatmap_v3_ndax": "2026-02-06T10:06:37.318312+00:00",
     "crypto_liquidations": "2026-07-08T14:54:12.875956+00:00",
-    "heatmap_blockchain": "2026-07-08T05:35:05.643215+00:00",
+    "heatmap_blockchain": "2026-07-08T16:27:18.928583+00:00",
     "trending_coins": "2026-07-06T08:57:30.226330+00:00"
   },
   "last_publication": {
-    "source": "crypto_liquidations",
-    "name": "Crypto Liquidations",
-    "published_at": "2026-07-08T14:54:12.875970+00:00",
-    "hour_utc": 14,
+    "source": "heatmap_blockchain",
+    "name": "Crypto Market Heatmap",
+    "published_at": "2026-07-08T16:27:18.928598+00:00",
+    "hour_utc": 16,
     "telegram": true,
     "twitter": false
   }
