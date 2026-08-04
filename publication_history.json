@@ -17,14 +17,14 @@
     "heatmap_v2_blockchain": "2026-02-06T07:28:36.191426+00:00",
     "heatmap_v3_ndax": "2026-02-06T10:06:37.318312+00:00",
     "crypto_liquidations": "2026-08-03T15:23:45.304452+00:00",
-    "heatmap_blockchain": "2026-08-03T17:24:10.339242+00:00",
+    "heatmap_blockchain": "2026-08-04T05:14:38.973584+00:00",
     "trending_coins": "2026-07-28T09:15:44.191124+00:00"
   },
   "last_publication": {
-    "source": "top_gainers",
-    "name": "Top Gainers",
-    "published_at": "2026-08-03T19:03:48.923656+00:00",
-    "hour_utc": 19,
+    "source": "heatmap_blockchain",
+    "name": "Crypto Market Heatmap",
+    "published_at": "2026-08-04T05:14:38.973597+00:00",
+    "hour_utc": 5,
     "telegram": true,
     "twitter": false
   }
