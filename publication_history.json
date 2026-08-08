@@ -5,7 +5,7 @@
     "derivatives": "2025-12-10T12:58:24.353929+00:00",
     "eth_etf": "2026-08-02T17:57:02.162724+00:00",
     "top_gainers": "2026-08-07T19:27:01.403689+00:00",
-    "fear_greed": "2026-07-28T13:50:23.774103+00:00",
+    "fear_greed": "2026-08-08T13:40:41.823557+00:00",
     "btc_dominance": "2026-07-27T13:24:13.327805+00:00",
     "btc_etf": "2026-08-07T17:21:15.851599+00:00",
     "heatmap": "2026-01-29T16:51:00.580087+00:00",
@@ -21,10 +21,10 @@
     "trending_coins": "2026-07-28T09:15:44.191124+00:00"
   },
   "last_publication": {
-    "source": "heatmap_blockchain",
-    "name": "Crypto Market Heatmap",
-    "published_at": "2026-08-08T04:34:16.441683+00:00",
-    "hour_utc": 4,
+    "source": "fear_greed",
+    "name": "Crypto Fear & Greed Index",
+    "published_at": "2026-08-08T13:40:41.823571+00:00",
+    "hour_utc": 13,
     "telegram": true,
     "twitter": false
   }
