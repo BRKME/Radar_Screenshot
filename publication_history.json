@@ -17,14 +17,14 @@
     "heatmap_v2_blockchain": "2026-02-06T07:28:36.191426+00:00",
     "heatmap_v3_ndax": "2026-02-06T10:06:37.318312+00:00",
     "crypto_liquidations": "2026-08-13T15:29:46.581232+00:00",
-    "heatmap_blockchain": "2026-08-13T16:26:14.634011+00:00",
+    "heatmap_blockchain": "2026-08-14T03:36:20.569525+00:00",
     "trending_coins": "2026-08-11T09:29:18.725461+00:00"
   },
   "last_publication": {
-    "source": "eth_etf",
-    "name": "Ethereum ETF Tracker",
-    "published_at": "2026-08-13T17:27:24.381156+00:00",
-    "hour_utc": 17,
+    "source": "heatmap_blockchain",
+    "name": "Crypto Market Heatmap",
+    "published_at": "2026-08-14T03:36:20.569542+00:00",
+    "hour_utc": 3,
     "telegram": true,
     "twitter": false
   }
