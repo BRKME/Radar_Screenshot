@@ -7,7 +7,7 @@
     "top_gainers": "2026-08-18T19:08:39.664850+00:00",
     "fear_greed": "2026-08-10T13:52:45.044193+00:00",
     "btc_dominance": "2026-08-19T13:39:38.996677+00:00",
-    "btc_etf": "2026-08-18T16:57:48.028058+00:00",
+    "btc_etf": "2026-08-19T16:58:34.872048+00:00",
     "heatmap": "2026-01-29T16:51:00.580087+00:00",
     "heatmap_v1_fullpage": "2026-01-30T04:23:29.668710+00:00",
     "heatmap_v2_small": "2026-02-05T07:32:27.981962+00:00",
@@ -21,9 +21,9 @@
     "trending_coins": "2026-08-19T09:06:30.488338+00:00"
   },
   "last_publication": {
-    "source": "heatmap_blockchain",
-    "name": "Crypto Market Heatmap",
-    "published_at": "2026-08-19T16:24:33.659335+00:00",
+    "source": "btc_etf",
+    "name": "Bitcoin ETF Tracker",
+    "published_at": "2026-08-19T16:58:34.872062+00:00",
     "hour_utc": 16,
     "telegram": true,
     "twitter": false
